@@ -34,6 +34,16 @@ CREATE TABLE Reviews (
     rating INT CHECK (rating BETWEEN 1 AND 5) NOT NULL
 );
 
+CREATE TABLE Announcements (
+    id SERIAL PRIMARY KEY,
+    teacher_id INT REFERENCES Teacher(id) ON DELETE CASCADE,
+    subject VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE Admin (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -64,3 +74,15 @@ INSERT INTO Reviews (student_id, teacher_id, title, review, rating) VALUES
 
 INSERT INTO Admin (username, password) VALUES
 ('admin', 'hashedadminpassword');
+
+INSERT INTO Announcements (teacher_id, subject, price, content) VALUES
+    (1, 'Mathematics', 50.00, 'Special offer: Get 10% off on Math tutoring for the first 5 sessions!'),
+    (2, 'Physics', 60.00, 'New Physics course available for beginners. Register now for an introductory discount!'),
+    (3, 'English Literature', 55.00, 'Join my English Literature class focusing on modern poetry. Now accepting students for a new semester!'),
+    (4, 'Chemistry', 65.00, 'Advanced Chemistry classes available. Book now and get a free introductory lesson!'),
+    (5, 'Biology', 58.00, 'Biology tutoring now available online and in-person. Get 20% off on your first session!'),
+    (6, 'History', 52.00, 'European History: In-depth analysis of 20th-century events. Special discount for group sessions!'),
+    (7, 'Computer Science', 70.00, 'Enroll now for advanced courses in algorithms and programming! Early bird discount available.'),
+    (8, 'Art', 45.00, 'Art classes focusing on contemporary techniques. Join now and get your first class free!'),
+    (9, 'Music', 60.00, 'Classical piano lessons available for all levels. Special rates for children under 12!'),
+    (10, 'Physical Education', 40.00, 'Get fit with personalized physical education lessons. Special offer for group bookings!');

@@ -1,6 +1,8 @@
 import express from 'express';
+
 import studentController from './controllers/studentController.js';
 import teacherController from './controllers/tutorController.js';
+import announcementsController from './controllers/announcementsController.js';
 
 const router = express.Router();
 
@@ -15,5 +17,12 @@ router.get('/teachers', teacherController.getAll);
 router.post('/register_teachers', teacherController.register);
 router.post('/teacher_auth', teacherController.login);
 router.get('/teacher_usernames', teacherController.getUsernames);
+
+// ANNOUCMENTS
+router.get('/announcements', announcementsController.getAll);
+router.get('/announcements/teacher/:teacherId', announcementsController.getByTeacher);
+router.post('/create_announcements', announcementsController.create);
+router.put('/update_announcements/:id', announcementsController.update);
+router.delete('/delete_announcements/:id', announcementsController.delete);
 
 export default router;
