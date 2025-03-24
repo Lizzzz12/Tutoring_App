@@ -6,7 +6,7 @@ const studentController = {};
 
 // Get all students
 studentController.getAll = (req, res) => {
-    const sql = "SELECT * FROM student";
+    const sql = "SELECT firstname, lastname, email, username FROM student";
     connection.query(sql, (error, result) => {
         if (error) {
             res.status(500).json({
