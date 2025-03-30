@@ -1,0 +1,31 @@
+import express from 'express';
+
+import studentController from './controllers/studentController.js';
+import teacherController from './controllers/tutorController.js';
+import announcementsController from './controllers/announcementsController.js';
+
+const router = express.Router();
+
+// STUDENTS
+router.get('/students', studentController.getAll);
+router.post('/student_register', studentController.register);
+router.post('/student_auth', studentController.login);
+router.get('/students_usernames', studentController.getUsernames);
+
+// **ADD THIS**
+router.get('/profile', studentController.getProfile);  // Get profile for logged-in student
+
+// TUTORS
+router.get('/teachers', teacherController.getAll);
+router.post('/register_teachers', teacherController.register);
+router.post('/teacher_auth', teacherController.login);
+router.get('/teacher_usernames', teacherController.getUsernames);
+
+// ANNOUNCEMENTS
+router.get('/announcements', announcementsController.getAll);
+router.get('/announcements/teacher/:teacherId', announcementsController.getByTeacher);
+router.post('/create_announcements', announcementsController.create);
+router.put('/update_announcements/:id', announcementsController.update);
+router.delete('/delete_announcements/:id', announcementsController.delete);
+
+export default router;
