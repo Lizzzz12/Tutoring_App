@@ -3,6 +3,7 @@ import express from 'express';
 import studentController from './controllers/studentController.js';
 import teacherController from './controllers/tutorController.js';
 import announcementsController from './controllers/announcementsController.js';
+import reviewController from './controllers/reviewController.js';
 
 const router = express.Router();
 
@@ -24,5 +25,10 @@ router.get('/announcements/teacher/:teacherId', announcementsController.getByTea
 router.post('/create_announcements', announcementsController.create);
 router.put('/update_announcements/:id', announcementsController.update);
 router.delete('/delete_announcements/:id', announcementsController.delete);
+
+// REVIEWS
+router.post('/reviews', reviewController.createReview);
+router.get('/reviews/:teacherId', reviewController.getReviewsByTeacher);
+router.delete('/reviews/:id', reviewController.deleteReview);
 
 export default router;
