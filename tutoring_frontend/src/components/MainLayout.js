@@ -39,10 +39,10 @@ const MainLayout = ({ children }) => {
       {/* Main Content */}
       <main className="main-content">{children}</main>
 
-      {/* Footer */}
+      {/* Footer
       <footer className="footer">
         <p>&copy; 2025 Tutoring App. All rights reserved.</p>
-      </footer>
+      </footer> */}
     </div>
   );
 };
