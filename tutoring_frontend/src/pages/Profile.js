@@ -82,6 +82,7 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <h2>Welcome, {user.firstname || user.username}!</h2>
+            <p className="role-label">You are logged in as a <strong>{role}</strong>.</p>
             <button onClick={handleLogout} className="logout-btn">Logout</button>
             
             <div className="profile-info">
@@ -110,6 +111,7 @@ const Profile = () => {
             </div>
         </div>
     );
+    
 };
 
 export default Profile;

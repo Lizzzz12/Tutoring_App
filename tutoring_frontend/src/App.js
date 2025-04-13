@@ -9,6 +9,8 @@ import Signup from "./pages/Signup";
 // import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 // import TeachersList from "./pages/TutorProfile";
+import TeacherProfile from "./pages/tutor_page/TeacherProfile";
+
 
 const App = () => {
   return (
@@ -24,6 +26,10 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           {/* <Route path="/tutorprofile" element={<TutorProfile />} />  */}
           {/* <Route path="/teacherslist" element={<TeachersList />} /> */}
+          <Route path="/teacher-profile" element={<TeacherProfile />} />
+          <Route path="/profile" element={<Profile />} />
+          
+
         </Routes>
       </MainLayout>
     </Router>
