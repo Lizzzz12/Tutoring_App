@@ -24,7 +24,7 @@ announcementsController.getAll = (req, res) => {
     });
 };
 
-// Get announcements by teacher ID (only if needed for admin)
+// Get announcements by teacher ID
 announcementsController.getByTeacher = (req, res) => {
     const teacherId = parseInt(req.params.teacherId, 10);
 
@@ -33,7 +33,7 @@ announcementsController.getByTeacher = (req, res) => {
     }
 
     const sql = `
-        SELECT a.id, a.subject, a.price, a.content, a.created_at 
+        SELECT a.id, a.teacher_id, a.subject, a.price, a.content, a.created_at 
         FROM announcements a 
         WHERE a.teacher_id = $1 
         ORDER BY a.created_at DESC

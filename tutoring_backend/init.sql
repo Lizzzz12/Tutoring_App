@@ -20,10 +20,21 @@ CREATE TABLE Teacher (
     img_url VARCHAR(255),
     availability TEXT,
     ratings DECIMAL(3,2) DEFAULT 0.0,
+    teacher_rating DECIMAL(3,2) DEFAULT 0.0,
     tutoring_location TEXT CHECK (tutoring_location IN ('Online', 'In Person', 'Both')),
     username VARCHAR(100) UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
+
+CREATE TABLE AnnouncementReviews (
+    id SERIAL PRIMARY KEY,
+    announcement_id INT REFERENCES Announcements(id) ON DELETE CASCADE,
+    student_id INT REFERENCES Student(id) ON DELETE CASCADE,
+    rating INT CHECK (rating BETWEEN 1 AND 5) NOT NULL,
+    review TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE Reviews (
     id SERIAL PRIMARY KEY,

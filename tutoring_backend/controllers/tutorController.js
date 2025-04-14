@@ -193,4 +193,63 @@ teacherController.update = async (req, res) => {
     }
 };
 
+// Get teacher by ID
+teacherController.getTeacherById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const query = "SELECT * FROM teacher WHERE id = $1";
+        const result = await connection.query(query, [id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Teacher not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Teacher fetched successfully",
+            data: result.rows[0],
+        });
+    } catch (error) {
+        console.error("Error fetching teacher by ID:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+// Overal Rating
+teacherController.getTeacherOverallRating = async (req, res) => {
+  const teacherId = parseInt(req.params.id, 10);
+
+  if (isNaN(teacherId)) {
+    return res.status(400).json({ success: false, message: 'Invalid teacher ID' });
+  }
+
+  try {
+    const query = `
+      SELECT ROUND(AVG(ar.rating)::numeric, 2) AS average_rating
+      FROM teacher t
+      JOIN announcements a ON t.id = a.teacher_id
+      JOIN announcementreviews ar ON a.id = ar.announcement_id
+      WHERE t.id = $1
+    `;
+
+    const result = await connection.query(query, [teacherId]);
+
+    res.status(200).json({
+      success: true,
+      averageRating: result.rows[0].average_rating || null,
+    });
+  } catch (error) {
+    console.error("Failed to fetch teacher's overall rating:", error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+
 export default teacherController;

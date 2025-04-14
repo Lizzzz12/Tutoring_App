@@ -8,6 +8,8 @@ import reviewController from './controllers/reviewController.js';
 import tutorMiddleware  from './middleware/tutorMiddleware.js';
 import studMiddleware from './middleware/studMiddleware.js';
 
+import announcementReviewController from './controllers/announcementReviewController.js';
+
 const router = express.Router();
 
 // STUDENTS
@@ -22,6 +24,8 @@ router.post('/register_teachers', teacherController.register);
 router.post('/teacher_auth', teacherController.login);
 router.get('/teacher_usernames', teacherController.getUsernames);
 router.post('/teacher_update/:id',tutorMiddleware, teacherController.update);
+router.get('/teachers/:id', teacherController.getTeacherById);
+router.get('/teachers/:id/overallRating', teacherController.getTeacherOverallRating);
 
 // ANNOUCMENTS
 router.get('/announcements', announcementsController.getAll);
@@ -34,5 +38,8 @@ router.delete('/delete_announcements/:id', tutorMiddleware, announcementsControl
 router.post('/reviews',studMiddleware, reviewController.createReview);
 router.get('/reviews/:teacherId', reviewController.getReviewsByTeacher);
 router.delete('/reviews/:id',studMiddleware, reviewController.deleteReview);
+
+// ANNOUNCEMENT REVIEWS
+router.get('/announcementReviews/:id', announcementReviewController.getReviewsByAnnouncement);
 
 export default router;
