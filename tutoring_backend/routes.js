@@ -17,6 +17,7 @@ router.get('/students', studentController.getAll);
 router.post('/student_register', studentController.register);
 router.post('/student_auth', studentController.login);
 router.get('/students_usernames', studentController.getUsernames);
+router.get("/students/:id", studentController.getStudentById);
 
 // TUTORS
 router.get('/teachers', teacherController.getAll);
@@ -41,5 +42,6 @@ router.delete('/reviews/:id',studMiddleware, reviewController.deleteReview);
 
 // ANNOUNCEMENT REVIEWS
 router.get('/announcementReviews/:id', announcementReviewController.getReviewsByAnnouncement);
+router.post('/announcementReviews', announcementReviewController.createReview);
 
 export default router;
