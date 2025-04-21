@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -6,6 +6,15 @@ const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (token && role) {
+      navigate(role === "teacher" ? "/teacher-profile" : "/profile");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,7 +25,7 @@ const Login = () => {
     setMessage("Logging in...");
 
     try {
-      // Try student login first
+      // Attempt Student Login
       const studentRes = await axios.post(
         "http://localhost:5000/api/student_auth",
         formData,
@@ -28,22 +37,14 @@ const Login = () => {
         localStorage.setItem("username", formData.username);
         localStorage.setItem("role", "student");
         setMessage("Login successful as student! Redirecting...");
-        setTimeout(() => {
-          const role = localStorage.getItem("role");
-          if (role === "teacher") {
-            navigate("/teacher-profile");
-          } else {
-            navigate("/profile"); // student
-          }
-        }, 1000);
-        return;
+        return setTimeout(() => navigate("/profile"), 1000);
       }
     } catch (err) {
-      // continue to try teacher login
+      // Proceed to check teacher login
     }
 
     try {
-      // Try teacher login if student login fails
+      // Attempt Teacher Login
       const teacherRes = await axios.post(
         "http://localhost:5000/api/teacher_auth",
         formData,
@@ -55,21 +56,12 @@ const Login = () => {
         localStorage.setItem("username", formData.username);
         localStorage.setItem("role", "teacher");
         setMessage("Login successful as teacher! Redirecting...");
-        setTimeout(() => {
-          const role = localStorage.getItem("role");
-          if (role === "teacher") {
-            navigate("/teacher-profile");
-          } else {
-            navigate("/profile"); // student
-          }
-        }, 1000);
-        return;
+        return setTimeout(() => navigate("/teacher-profile"), 1000);
       }
     } catch (error) {
-      // login failed for both
       setMessage(
         error.response?.data?.message ||
-        "Login failed as student and teacher. Please try again."
+        "Login failed for both roles. Please check your credentials."
       );
     }
   };
@@ -87,7 +79,6 @@ const Login = () => {
           onChange={handleChange}
           required
         />
-
         <input
           type="password"
           name="password"
@@ -97,10 +88,7 @@ const Login = () => {
           onChange={handleChange}
           required
         />
-
-        <button type="submit" className="btn login-btn">
-          Login
-        </button>
+        <button type="submit" className="btn login-btn">Login</button>
       </form>
 
       {message && (
@@ -108,6 +96,10 @@ const Login = () => {
           {message}
         </div>
       )}
+
+      <p className="signup-link">
+        Don't have an account? <a href="/signup">Sign up here</a>
+      </p>
     </div>
   );
 };

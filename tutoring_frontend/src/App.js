@@ -10,6 +10,9 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 // import TeachersList from "./pages/TutorProfile";
 import TeacherProfile from "./pages/tutor_page/TeacherProfile";
+import ProfileCards from "./pages/ProfileCards/ProfileCards"
+import TutorDetail from "./pages/ProfileCards/TutorDetails";
+import EditTeacherProfile from "./pages/tutor_page/EditTeacherProfile";
 
 
 const App = () => {
@@ -28,6 +31,12 @@ const App = () => {
           {/* <Route path="/teacherslist" element={<TeachersList />} /> */}
           <Route path="/teacher-profile" element={<TeacherProfile />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profilecards" element={<ProfileCards />} />
+          <Route path="/tutor/:id" element={<TutorDetail />} />
+          <Route path="/edit-teacher-profile" element={<EditTeacherProfile />} />
+
+          
+
           
 
         </Routes>

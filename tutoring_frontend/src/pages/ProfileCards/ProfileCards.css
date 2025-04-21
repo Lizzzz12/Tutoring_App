@@ -1,0 +1,83 @@
+.profile-cards-container {
+    padding: 40px 20px;
+    background-color: #fff;
+  }
+  
+  .profile-cards-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #444;
+    font-size: 28px;
+  }
+  
+  .tutors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+  
+  .tutor-card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .tutor-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .tutor-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .tutor-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .tutor-info {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .tutor-subject {
+    color: #666;
+    font-weight: bold;
+  }
+  
+  .tutor-description {
+    font-size: 14px;
+    color: #888;
+    margin: 10px 0;
+  }
+  
+  .tutor-meta {
+    display: flex;
+    justify-content: space-around;
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .contact-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #b2b1ee;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contact-button:hover {
+    background-color: #938ff9;
+  }
+  

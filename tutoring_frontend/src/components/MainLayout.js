@@ -1,48 +1,50 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/styles.css";
 
 const MainLayout = ({ children }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Check login status on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleAuthClick = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("role");
+      setIsLoggedIn(false);
+      navigate("/login");
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div>
-      {/* Header */}
+      {/* Styled Header */}
       <header className="header">
         <div className="header-content">
-          <a href="/" className="logo">Tutoring App</a>
+         <Link to={isLoggedIn ? "/teacher-profile" : "/"} className="logo">
+  Tutoring App
+</Link>
+
           <nav className="nav">
             <Link to="/">Home</Link>
             <Link to="/about">About</Link>
-            {/* <Link to="/tutorprofile">Tutor Profile  </Link>  */}
-
-            {/* Login Dropdown */}
-            <div className="login-dropdown">
-              <button 
-                className="login-btn" 
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                Login
-              </button>
-
-              {isDropdownOpen && (
-                <div className="dropdown-menu">
-                  <Link to="/login">Login</Link>
-                  <Link to="/signup">Sign Up</Link>
-                </div>
-              )}
-            </div>
+            <button className="login-btn" onClick={handleAuthClick}>
+              {isLoggedIn ? "Logout" : "Login"}
+            </button>
           </nav>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="main-content">{children}</main>
-
-      {/* Footer
-      <footer className="footer">
-        <p>&copy; 2025 Tutoring App. All rights reserved.</p>
-      </footer> */}
     </div>
   );
 };

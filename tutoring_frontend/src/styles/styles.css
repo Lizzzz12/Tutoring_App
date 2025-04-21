@@ -43,30 +43,28 @@ body {
   text-decoration: underline;
 }
 
-/* Login Button & Dropdown */
+/* Login Dropdown (Hover) */
 .login-dropdown {
   position: relative;
+  display: inline-block;
 }
 
-
-.btn.login-btn {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
+.login-dropdown .login-btn {
   background-color: #b2b1ee;
   color: white;
-  border: none;
+  padding: 10px 20px;
   border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
-  background-color: #f0f0f0;
+.login-dropdown .login-btn:hover {
+  background-color: #918ff2;
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -77,9 +75,13 @@ body {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 120px;
   z-index: 10;
-  display: flex;
+  display: none;
   flex-direction: column;
   text-align: left;
+}
+
+.login-dropdown:hover .dropdown-menu {
+  display: flex;
 }
 
 .dropdown-menu a {
@@ -110,27 +112,27 @@ body {
   bottom: 0;
   width: 100%;
 }
+
 /* Home Page */
 .home-container {
-  display: flex;            /* Enables flex layout */
-  align-items: center;      /* Aligns items vertically */
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 5px;
   margin-top: 20px;
-  text-align: left;         /* Aligns text within the text section */
+  text-align: left;
 }
 
 .home-image {
   max-width: 50%;
   height: auto;
-  margin-bottom: 0;         /* Remove bottom margin when using flex */
-  margin-right: 20px;       /* Space between image and text */
+  margin-bottom: 0;
+  margin-right: 20px;
 }
 
 .home-text {
   max-width: 50%;
 }
-
 
 .home-buttons {
   margin-top: 20px;
@@ -143,6 +145,7 @@ body {
   text-decoration: none;
   border-radius: 5px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .signup-btn {
@@ -154,22 +157,9 @@ body {
   background-color: #218838;
 }
 
-.login-btn {
-  background-color: white;
-  color: #b2b1ee;
-  padding: 8px 15px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.login-btn:hover {
-  background-color: #b2b1ee;
-}
-
 /* Login & Signup Page */
-.login-container, .signup-container {
+.login-container,
+.signup-container {
   max-width: 400px;
   margin: 50px auto;
   background: white;
@@ -198,16 +188,24 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-
-
 .login-btn {
   background-color: #b2b1ee;
   color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: matches soft look */
 }
 
 .login-btn:hover {
-  background-color: #0056b3;
+  background-color: #918ff2;
 }
+
+
 
 .signup-container p {
   margin-top: 10px;
@@ -223,7 +221,7 @@ body {
 }
 
 .signout-btn {
-  background-color: #dc3545; /* Red */
+  background-color: #dc3545;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -235,4 +233,48 @@ body {
 
 .signout-btn:hover {
   background-color: #b52b3a;
+}
+
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+.auth-btn {
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.auth-btn:hover {
+  background-color: #45a049;
+}
+
+
+.signup-link {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center;
+  color: #444;
+}
+
+.signup-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.signup-link a:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
