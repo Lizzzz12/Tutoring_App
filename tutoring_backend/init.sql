@@ -21,6 +21,7 @@ CREATE TABLE Teacher (
     availability TEXT,
     ratings DECIMAL(3,2) DEFAULT 0.0,
     teacher_rating DECIMAL(3,2) DEFAULT 0.0,
+    status VARCHAR(20) DEFAULT 'pending',
     tutoring_location TEXT CHECK (tutoring_location IN ('Online', 'In Person', 'Both')),
     username VARCHAR(100) UNIQUE NOT NULL,
     password TEXT NOT NULL

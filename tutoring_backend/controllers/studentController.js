@@ -163,4 +163,57 @@ studentController.getUsernames = async (req, res) => {
   }
 };
 
+// Change student credentials
+studentController.changeCredentials = async (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword, newUsername } = req.body;
+
+  // 🔒 Ensure the authenticated user is modifying only their own credentials
+  if (parseInt(id) !== req.studentId) {
+    return res.status(403).json({ success: false, message: 'Access denied' });
+  }
+
+  if (!currentPassword || !newPassword || !newUsername) {
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM student WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Student not found' });
+    }
+
+    const student = result.rows[0];
+    const passwordMatch = await bcrypt.compare(currentPassword, student.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Check if username is already taken by another student
+    const usernameCheck = await pool.query(
+      'SELECT * FROM student WHERE username = $1 AND id != $2',
+      [newUsername, id]
+    );
+    if (usernameCheck.rows.length > 0) {
+      return res.status(400).json({ success: false, message: 'Username is already taken' });
+    }
+
+    const updateQuery = `
+      UPDATE student
+      SET password = $1, username = $2
+      WHERE id = $3
+    `;
+    await pool.query(updateQuery, [hashedPassword, newUsername, id]);
+
+    res.status(200).json({ success: true, message: 'Credentials updated successfully' });
+  } catch (error) {
+    console.error('Error updating student credentials:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+
+
 export default studentController;

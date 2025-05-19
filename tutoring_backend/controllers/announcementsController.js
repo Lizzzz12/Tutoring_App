@@ -32,12 +32,13 @@ announcementsController.getByTeacher = (req, res) => {
         return res.status(400).json({ success: false, message: "Invalid teacherId" });
     }
 
-    const sql = `
-        SELECT a.id, a.teacher_id, a.subject, a.price, a.content, a.created_at 
-        FROM announcements a 
-        WHERE a.teacher_id = $1 
-        ORDER BY a.created_at DESC
-    `;
+    // const sql = `
+    //     SELECT a.id, a.teacher_id, a.subject, a.price, a.content, a.created_at 
+    //     FROM announcements a 
+    //     WHERE a.teacher_id = $1 
+    //     ORDER BY a.created_at DESC
+    // `;
+    const sql = `SELECT * FROM announcements WHERE teacher_id = $1`;
     connection.query(sql, [teacherId], (error, result) => {
         if (error) {
             console.error(error);
@@ -51,6 +52,41 @@ announcementsController.getByTeacher = (req, res) => {
         });
     });
 };
+
+// Get announcement by ID
+announcementsController.getById = (req, res) => {
+    const announcementId = parseInt(req.params.id, 10);
+
+    if (isNaN(announcementId)) {
+        return res.status(400).json({ success: false, message: "Invalid announcement ID" });
+    }
+
+    const sql = `
+        SELECT a.id, a.teacher_id, a.subject, a.price, a.content, a.created_at, t.firstname, t.lastname 
+        FROM announcements a 
+        JOIN teacher t ON a.teacher_id = t.id 
+        WHERE a.id = $1
+    `;
+
+    connection.query(sql, [announcementId], (error, result) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ success: false, message: error.message });
+        }
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Announcement not found" });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Announcement fetched successfully",
+            data: result.rows[0],
+        });
+    });
+};
+
+
 
 // Create new announcement (authenticated)
 announcementsController.create = async (req, res) => {

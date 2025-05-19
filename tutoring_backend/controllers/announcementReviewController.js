@@ -24,7 +24,7 @@ announcementReviewController.getReviewsByAnnouncement = async (req, res) => {
         `;
         const result = await connection.query(query, [announcementIdInt]);
 
-        if (result.rowCount === 0) {
+        if (!result || result.rowCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "No reviews found for this announcement",
