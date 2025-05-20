@@ -1,167 +1,192 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
 
 const AnnouncementDetails = () => {
-  const { t } = useTranslation();
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [announcements, setAnnouncements] = useState([]);
-  const [currentAnnouncement, setCurrentAnnouncement] = useState(null);
+  const [announcement, setAnnouncement] = useState({});
   const [teacher, setTeacher] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState({ announcements: true, teacher: true, reviews: true });
-  const [error, setError] = useState(null);
-  const [newReview, setNewReview] = useState({ title: '', rating: 5, review: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [studentId, setStudentId] = useState('');
+  const [rating, setRating] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
+    const fetchAnnouncement = async () => {
+      const response = await fetch(`http://localhost:5000/api/teacher/${id}`);
+      const data = await response.json();
 
-    const fetchData = async () => {
-      try {
-        const [announcementsRes, teacherRes, reviewsRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/teacher/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`http://localhost:5000/api/teachers/${id}`, { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(`http://localhost:5000/api/reviews/${id}`, { headers: { Authorization: `Bearer ${token}` } })
-        ]);
-
-        const announcementsData = announcementsRes.data.data;
-        if (!announcementsData || announcementsData.length === 0) {
-          throw new Error(t('announcement.no_announcements'));
-        }
-
-        setAnnouncements(announcementsData);
-        setCurrentAnnouncement(announcementsData[0]);
-        setTeacher(teacherRes.data.data);
-        setReviews(reviewsRes.data.data || []);
-
-      } catch (err) {
-        console.error('Error:', err);
-        setError(err.response?.data?.message || err.message);
-      } finally {
-        setLoading({ announcements: false, teacher: false, reviews: false });
+      if (data.success && data.data && data.data.length > 0) {
+        setAnnouncement(data.data[0]);
       }
     };
 
-    fetchData();
-  }, [id, navigate, t]);
+    fetchAnnouncement();
+  }, [id]);
 
-  const handleReviewChange = (e) => {
-    const { name, value } = e.target;
-    setNewReview((prev) => ({ ...prev, [name]: name === 'rating' ? parseInt(value) : value }));
+  useEffect(() => {
+    const fetchTeacher = async () => {
+      if (!announcement || !announcement.teacher_id) return;
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/teachers/${announcement.teacher_id}`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          setTeacher(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch teacher:', error);
+      }
+    };
+
+    fetchTeacher();
+  }, [announcement]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      if (!announcement || !announcement.id) return;
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/announcementReviews/${announcement.id}`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          setReviews(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch reviews:', error);
+      }
+    };
+
+    fetchReviews();
+  }, [announcement]);
+
+  const handleMoreInfoClick = () => {
+    navigate(`/teacher-profile/${teacher?.id}`);
   };
 
-  const handleSubmitReview = async (e) => {
+  const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const studentId = localStorage.getItem('userId');
-    if (!token || !studentId) return navigate('/login');
 
-    setIsSubmitting(true);
+    if (!studentId || !rating || !reviewText) {
+      alert('Please fill in all review fields.');
+      return;
+    }
+
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/reviews',
-        {
-          studentId,
-          teacherId: id,
-          title: newReview.title,
-          rating: newReview.rating,
-          review: newReview.review,
-          announcementId: currentAnnouncement?.id
+      const response = await fetch('http://localhost:5000/api/announcementReviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+        body: JSON.stringify({
+          student_id: studentId,
+          announcement_id: announcement.id,
+          rating,
+          review: reviewText,
+        }),
+      });
 
-      setReviews((prev) => [...prev, response.data.data]);
-      setNewReview({ title: '', rating: 5, review: '' });
-      setError(null);
-    } catch (err) {
-      console.error('Review submission error:', err);
-      setError(err.response?.data?.message || err.message);
-    } finally {
-      setIsSubmitting(false);
+      const data = await response.json();
+
+      if (data.success) {
+        setReviews([data.data, ...reviews]);
+        setStudentId('');
+        setRating('');
+        setReviewText('');
+      } else {
+        alert(data.message || 'Failed to submit review.');
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Error submitting review.');
     }
   };
 
-  if (loading.announcements || loading.teacher || loading.reviews) return <div>{t('loading')}</div>;
-
-  if (error) return (
-    <div className="error">
-      <p>{error}</p>
-      <button onClick={() => navigate(-1)}>{t('go_back')}</button>
-    </div>
-  );
-
-  if (!currentAnnouncement || !teacher) return (
-    <div className="not-found">
-      <p>{t('announcement.not_found')}</p>
-      <button onClick={() => navigate(-1)}>{t('go_back')}</button>
-    </div>
-  );
-
   return (
-    <div className="announcement-container">
-      <h2>{currentAnnouncement.subject}</h2>
-      <p>{t('announcement.price', { price: currentAnnouncement.price })}</p>
-      <p>{currentAnnouncement.content}</p>
+    <div className="container mt-5">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h2 className="card-title text-primary">{announcement.subject || 'No subject provided'}</h2>
+          <p className="card-text"><strong>Price:</strong> ${announcement.price || 'N/A'} in hour.</p>
+          <p className="card-text"><strong>Description:</strong> {announcement.content || 'No description'}</p>
+          <p className="card-text">
+            <strong>Posted on:</strong>{' '}
+            {announcement.created_at
+              ? new Date(announcement.created_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+              : 'Not specified'}
+          </p>
 
-      <div className="teacher-info">
-        <h3>{teacher.firstname} {teacher.lastname}</h3>
-        <p>{teacher.email}</p>
-      </div>
+          <hr />
 
-      <div className="add-review">
-        <h3>{t('review.add')}</h3>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmitReview}>
-          <div className="form-group">
-            <label>{t('review.title')}</label>
-            <input type="text" name="title" value={newReview.title} onChange={handleReviewChange} required placeholder={t('review.title_placeholder')} />
-          </div>
-          <div className="form-group">
-            <label>{t('review.rating')}</label>
-            <select name="rating" value={newReview.rating} onChange={handleReviewChange} required>
-              <option value="5">5 - {t('review.excellent')}</option>
-              <option value="4">4 - {t('review.very_good')}</option>
-              <option value="3">3 - {t('review.good')}</option>
-              <option value="2">2 - {t('review.fair')}</option>
-              <option value="1">1 - {t('review.poor')}</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>{t('review.text')}</label>
-            <textarea name="review" value={newReview.review} onChange={handleReviewChange} required minLength="10" placeholder={t('review.placeholder')} />
-          </div>
-          <button type="submit" disabled={isSubmitting}>{isSubmitting ? t('review.submitting') : t('review.submit')}</button>
-        </form>
-      </div>
+          <h4 className="text-success">Teacher Details</h4>
+          <p className="mb-1"><strong>Name:</strong> {teacher ? `${teacher.firstname} ${teacher.lastname}` : 'Not found'}</p>
+          <p><strong>Availability:</strong> {teacher?.availability || 'Not specified'}</p>
 
-      <div className="reviews">
-        <h3>{t('review.list')}</h3>
-        {reviews.length === 0 ? (
-          <p>{t('review.no_reviews')}</p>
-        ) : (
-          reviews.map((review) => (
-            <div key={review.id} className="review">
-              <h4>{review.title}</h4>
-              <p>{t('review.rating')}: {review.rating}/5</p>
-              <p>{review.review}</p>
-              <small>{t('review.by', { name: review.student_firstname || t('review.anonymous') })}</small>
-              <small>{t('review.date', { date: new Date(review.created_at).toLocaleDateString() })}</small>
-            </div>
-          ))
-        )}
+          <button className="btn btn-info mb-4" onClick={handleMoreInfoClick}>
+            More Information
+          </button>
+
+          <hr />
+
+          <div className="mt-4">
+            <h4 className="text-info">Reviews</h4>
+            {reviews.length === 0 ? (
+              <p>No reviews yet.</p>
+            ) : (
+              <ul className="list-group mb-4">
+                {reviews.map((review) => (
+                  <li key={review.id} className="list-group-item">
+                    <div className="d-flex justify-content-between">
+                      <span><strong>{review.student_name}</strong> - Rating: {review.rating}/5</span>
+                      <span>{new Date(review.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <p>{review.review}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <h5 className="mt-4">Leave a Review</h5>
+            <form onSubmit={handleReviewSubmit}>
+              <div className="form-group mb-2">
+                <label>Student ID</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
+                />
+              </div>
+              <div className="form-group mb-2">
+                <label>Rating (1-5)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  min="1"
+                  max="5"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                />
+              </div>
+              <div className="form-group mb-3">
+                <label>Review</label>
+                <textarea
+                  className="form-control"
+                  rows="3"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                ></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary">Submit Review</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
