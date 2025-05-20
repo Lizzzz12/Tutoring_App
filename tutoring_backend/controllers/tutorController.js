@@ -159,6 +159,10 @@ teacherController.update = async (req, res) => {
             return res.status(400).json({ success: false, message: "Required fields are missing" });
         }
 
+<<<<<<< HEAD
+        // Ensure the username or email doesn't conflict with another teacher
+=======
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
         const userCheckQuery = "SELECT * FROM teacher WHERE (username = $1 OR email = $2) AND id != $3";
         const userCheckResult = await connection.query(userCheckQuery, [username, email, id]);
 
@@ -251,6 +255,10 @@ teacherController.getTeacherOverallRating = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+
+export default teacherController;
+=======
 // Change teacher credentials
 teacherController.changeCredentials = async (req, res) => {
   const { id } = req.params;
@@ -297,3 +305,4 @@ teacherController.changeCredentials = async (req, res) => {
 
 
 export default teacherController;
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756

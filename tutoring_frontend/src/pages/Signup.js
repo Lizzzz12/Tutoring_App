@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-//some comments
+
 const Signup = () => {
   const [userType, setUserType] = useState("student");
   const [formData, setFormData] = useState({
@@ -9,6 +9,13 @@ const Signup = () => {
     email: "",
     username: "",
     password: "",
+    address: "",
+    phone: "",
+    subject: "",
+    description: "",
+    price: "",
+    availability: "",
+    img_url: "",
   });
   const [message, setMessage] = useState("");
 
@@ -85,11 +92,79 @@ const Signup = () => {
           onChange={handleChange}
           required
         />
+
+        {/* Extra fields only shown if user is a teacher */}
+        {userType === "teacher" && (
+          <>
+            <input
+              type="text"
+              name="address"
+              placeholder="Address"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="subject"
+              placeholder="Subject"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="description"
+              placeholder="Description"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="number"
+              name="price"
+              placeholder="Price"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="availability"
+              placeholder="Availability (e.g. Mon-Fri)"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="img_url"
+              placeholder="Image URL"
+              className="input-field"
+              onChange={handleChange}
+              required
+            />
+          </>
+        )}
+
         <button type="submit" className="btn signup-btn">
           Create Account
         </button>
       </form>
+
       <p>{message}</p>
+
+      <p className="login-link">
+        Already have an account? <a href="/login">Log in here</a>
+      </p>
     </div>
   );
 };
