@@ -4,43 +4,32 @@ import cors from 'cors';
 import i18next from 'i18next';
 import middleware from 'i18next-http-middleware';
 import Backend from 'i18next-fs-backend';
-
 import routes from './routes.js';
-import cors from 'cors';
 
 dotenv.config();
 
-// Initialize i18next for localization
 i18next
   .use(Backend)
   .use(middleware.LanguageDetector)
   .init({
-    fallbackLng: 'ka', // Default language is Georgian
-    preload: ['ka', 'en'], // Preload supported languages
+    fallbackLng: 'ka',
+    preload: ['ka', 'en'],
     backend: {
       loadPath: './locales/{{lng}}/translation.json'
     },
     detection: {
-      order: ['querystring', 'header'], // Allows ?lng=ka or Accept-Language header
+      order: ['querystring', 'header'],
       caches: false
     }
   });
 
 const app = express();
 
-<<<<<<< HEAD
 // Middleware setup
 app.use(cors());
-=======
-app.use(cors());
-
->>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
 app.use(express.json());
 
-// i18next middleware to enable req.t()
 app.use(middleware.handle(i18next));
-
-// API routes
 app.use('/api', routes);
 
 // 404 Not Found handler (translated)
@@ -63,5 +52,5 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

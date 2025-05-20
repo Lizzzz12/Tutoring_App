@@ -19,7 +19,6 @@ studentController.getAll = async (req, res) => {
     console.error("GetAll Error:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-<<<<<<< HEAD
 };
 
 // Get student by ID
@@ -46,8 +45,6 @@ studentController.getStudentById = async (req, res) => {
     console.error("GetStudentById Error:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-=======
->>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
 };
 
 // Get student by ID
@@ -132,14 +129,10 @@ studentController.login = async (req, res) => {
     if (!username || !password) {
       return res
         .status(400)
-<<<<<<< HEAD
         .json({
           success: false,
           message: "Username and password are required",
         });
-=======
-        .json({ success: false, message: "Username and password are required" });
->>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
     }
 
     const result = await pool.query(
@@ -249,7 +242,5 @@ studentController.changeCredentials = async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
-
-
 
 export default studentController;
