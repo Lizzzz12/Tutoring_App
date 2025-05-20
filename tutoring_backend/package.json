@@ -12,9 +12,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+<<<<<<< HEAD
     "i18next": "^25.1.1",
     "i18next-fs-backend": "^2.6.0",
     "i18next-http-middleware": "^3.7.4",
+=======
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
     "multer": "^1.4.5-lts.2"
   },
   "devDependencies": {

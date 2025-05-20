@@ -6,6 +6,7 @@ import middleware from 'i18next-http-middleware';
 import Backend from 'i18next-fs-backend';
 
 import routes from './routes.js';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -27,8 +28,13 @@ i18next
 
 const app = express();
 
+<<<<<<< HEAD
 // Middleware setup
 app.use(cors());
+=======
+app.use(cors());
+
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
 app.use(express.json());
 
 // i18next middleware to enable req.t()

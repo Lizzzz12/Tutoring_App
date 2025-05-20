@@ -18,4 +18,8 @@ const tutorMiddleware = (req, res, next) => {
     }
 };
 
+<<<<<<< HEAD
 export default tutorMiddleware;
+=======
+export default tutorMiddleware;
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756

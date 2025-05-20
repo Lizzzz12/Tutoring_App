@@ -116,6 +116,7 @@ teacherController.login = async (req, res) => {
             success: true,
             message: "Login successful",
             token,
+            teacher: user,
         });
 
     } catch (err) {
@@ -158,7 +159,10 @@ teacherController.update = async (req, res) => {
             return res.status(400).json({ success: false, message: "Required fields are missing" });
         }
 
+<<<<<<< HEAD
         // Ensure the username or email doesn't conflict with another teacher
+=======
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
         const userCheckQuery = "SELECT * FROM teacher WHERE (username = $1 OR email = $2) AND id != $3";
         const userCheckResult = await connection.query(userCheckQuery, [username, email, id]);
 
@@ -251,5 +255,54 @@ teacherController.getTeacherOverallRating = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 
 export default teacherController;
+=======
+// Change teacher credentials
+teacherController.changeCredentials = async (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword, newUsername } = req.body;
+
+  if (!currentPassword || !newPassword || !newUsername) {
+    return res.status(400).json({ success: false, message: 'All fields are required' });
+  }
+
+  try {
+    const result = await connection.query('SELECT * FROM teacher WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Teacher not found' });
+    }
+
+    const teacher = result.rows[0];
+    const passwordMatch = await bcrypt.compare(currentPassword, teacher.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ success: false, message: 'Current password is incorrect' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Check if username is already taken by another teacher
+    const usernameCheck = await connection.query('SELECT * FROM teacher WHERE username = $1 AND id != $2', [newUsername, id]);
+    if (usernameCheck.rows.length > 0) {
+      return res.status(400).json({ success: false, message: 'Username is already taken' });
+    }
+
+    const updateQuery = `
+      UPDATE teacher
+      SET password = $1, username = $2
+      WHERE id = $3
+    `;
+    await connection.query(updateQuery, [hashedPassword, newUsername, id]);
+
+    res.status(200).json({ success: true, message: 'Credentials updated successfully' });
+  } catch (error) {
+    console.error('Error updating teacher credentials:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+
+
+export default teacherController;
+>>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
