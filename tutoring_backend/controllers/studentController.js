@@ -19,35 +19,6 @@ studentController.getAll = async (req, res) => {
     console.error("GetAll Error:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-<<<<<<< HEAD
-};
-
-// Get student by ID
-studentController.getStudentById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const result = await pool.query(
-      "SELECT id, firstname, lastname, email, username FROM student WHERE id = $1",
-      [id]
-    );
-
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Student not found" });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Student fetched successfully",
-      data: result.rows[0],
-    });
-  } catch (error) {
-    console.error("GetStudentById Error:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
-=======
->>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
 };
 
 // Get student by ID
@@ -132,14 +103,7 @@ studentController.login = async (req, res) => {
     if (!username || !password) {
       return res
         .status(400)
-<<<<<<< HEAD
-        .json({
-          success: false,
-          message: "Username and password are required",
-        });
-=======
         .json({ success: false, message: "Username and password are required" });
->>>>>>> 90a977300ba21d7d60c90fafb5f522d6cc818756
     }
 
     const result = await pool.query(
