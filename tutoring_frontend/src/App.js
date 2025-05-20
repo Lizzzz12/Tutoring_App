@@ -1,32 +1,31 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainLayout from "./components/MainLayout";
-import Home from "./pages/Home";
-import Tutors from "./pages/Tutors";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import TeachersList from "./pages/TutorProfile";
+import { AuthProvider } from './AuthContext';
+
+// Student interface imports
+import StudentDashboard from "./studentComponent/student_dashboard";
+import AnnouncementDetails from "./studentComponent/details";
+import StudentLogin from "./studentComponent/student_login";
+import Favorites from "./studentComponent/favorites";
+import Register from "./studentComponent/student_register";
+import TeacherProfile from "./studentComponent/teacher_profile";
 
 const App = () => {
   return (
-    <Router>
-      <MainLayout>
+    <AuthProvider>
+       <Router>
+       
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tutors" element={<Tutors />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          {/* <Route path="/tutorprofile" element={<TutorProfile />} />  */}
-          <Route path="/teacherslist" element={<TeachersList />} />
+          <Route path="/" element={<StudentLogin />} />
+          <Route path="/student_register" element={<Register />} />
+          <Route path="/teacher/:id" element={<AnnouncementDetails />} />
+          <Route path="/teacher-profile/:teacherId" element={<TeacherProfile />} />
+          <Route path="/dashboard" element={<StudentDashboard />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
-      </MainLayout>
+      
     </Router>
+    </AuthProvider>
   );
 };
 

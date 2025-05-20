@@ -23,7 +23,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/${endpoint}`,
+        `http://localhost:5001/api/${endpoint}`,
         formData
       );
       setMessage(response.data.message);
