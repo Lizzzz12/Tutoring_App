@@ -1,0 +1,68 @@
+{
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "login": "Login",
+      "logout": "Logout"
+    },
+    
+        "profileCards": {
+          "title": "Subjects and Tutors",
+          "noDescription": "No description provided.",
+          "noAvailability": "Availability not listed",
+          "contact": "Contact Tutor"
+        }
+
+        ,
+            "tutorDetail": {
+              "loading": "Loading...",
+              "subject": "Subject",
+              "description": "Description",
+              "availability": "Availability",
+              "rating": "Rating",
+              "back": "Go Back",
+              "login": "Login",
+              "signup": "Sign Up",
+              "noDescription": "No description provided.",
+              "noAvailability": "Availability not listed"
+            }
+                  
+            ,
+                "announcement": {
+                  "title": "Subject",
+                  "price": "Price: ${{price}}/hour",
+                  "content": "Description",
+                  "teacher": {
+                    "name": "{{firstname}} {{lastname}}",
+                    "email": "{{email}}"
+                  },
+                  "review": {
+                    "addTitle": "Add Your Review",
+                    "form": {
+                      "title": "Title",
+                      "rating": "Rating",
+                      "review": "Review",
+                      "placeholderTitle": "Review title",
+                      "placeholderReview": "Write your review here (minimum 10 characters)",
+                      "submit": "Submit Review",
+                      "submitting": "Submitting..."
+                    },
+                    "errors": {
+                      "submitFailed": "Failed to submit review",
+                      "loadFailed": "Failed to load data"
+                    },
+                    "none": "No reviews yet. Be the first to review!",
+                    "by": "By: {{name}}",
+                    "posted": "Posted on: {{date}}"
+                  },
+                  "loading": "Loading...",
+                  "goBack": "Go Back",
+                  "notFound": {
+                    "title": "No announcement data available"
+                  }
+                }
+                                  
+      
+  }
+  
+  

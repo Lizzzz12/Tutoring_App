@@ -7,12 +7,15 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     if (token && role) {
-      navigate(role === "teacher" ? "/teacher-profile" : "/profile");
+      if (role === "teacher") {
+        navigate("/teacher-profile");
+      } else if (role === "student") {
+        navigate("/dashboard");
+      }
     }
   }, [navigate]);
 
@@ -25,49 +28,52 @@ const Login = () => {
     setMessage("Logging in...");
 
     try {
-      // Attempt Student Login
       const studentRes = await axios.post(
         "http://localhost:5000/api/student_auth",
-        formData,
-        { withCredentials: true }
+        formData
       );
 
-      if (studentRes.data.success) {
+      if (studentRes.data.success && studentRes.data.student) {
+        const { id, username } = studentRes.data.student;
+
         localStorage.setItem("token", studentRes.data.token);
-        localStorage.setItem("username", formData.username);
+        localStorage.setItem("username", username);
         localStorage.setItem("role", "student");
+        localStorage.setItem("studentId", id.toString());
+
         setMessage("Login successful as student! Redirecting...");
-        return setTimeout(() => navigate("/profile"), 1000);
+        setTimeout(() => navigate("/dashboard"), 1000);
+        return;
       }
     } catch (err) {
-      // Proceed to check teacher login
+      console.log("Student login failed, trying teacher...");
     }
 
     try {
-      // Attempt Teacher Login
       const teacherRes = await axios.post(
         "http://localhost:5000/api/teacher_auth",
-        formData,
-        { withCredentials: true }
+        formData
       );
 
       if (teacherRes.data.success) {
         localStorage.setItem("token", teacherRes.data.token);
         localStorage.setItem("username", formData.username);
         localStorage.setItem("role", "teacher");
+
         setMessage("Login successful as teacher! Redirecting...");
-        return setTimeout(() => navigate("/teacher-profile"), 1000);
+        setTimeout(() => navigate("/teacher-profile"), 1000);
+        return;
       }
     } catch (error) {
       setMessage(
         error.response?.data?.message ||
-        "Login failed for both roles. Please check your credentials."
+          "Login failed for both roles. Please check your credentials."
       );
     }
   };
 
   return (
-    <div className="login-container">
+    <div className="signup-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -88,17 +94,20 @@ const Login = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit" className="btn login-btn">Login</button>
+
+        <button type="submit" className="btn signup-btn">
+          Login
+        </button>
       </form>
 
-      {message && (
-        <div className={`message ${message.includes("successful") ? "success" : "error"}`}>
-          {message}
-        </div>
-      )}
+      <p>{message}</p>
 
-      <p className="signup-link">
+      <p className="login-link">
         Don't have an account? <a href="/signup">Sign up here</a>
+      </p>
+
+      <p className="forgot-password-link">
+        <a href="/forgot-password">Forgot Password?</a>
       </p>
     </div>
   );

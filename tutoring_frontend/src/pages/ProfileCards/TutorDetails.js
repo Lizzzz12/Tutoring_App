@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './TutorDetail.css';
 
 const TutorDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [tutor, setTutor] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTutor = async () => {
@@ -23,28 +25,28 @@ const TutorDetail = () => {
     fetchTutor();
   }, [id]);
 
-  if (!tutor) return <p>Loading...</p>;
+  if (!tutor) return <p>{t('tutorDetail.loading')}</p>;
 
   return (
     <div className="tutor-detail-container">
       <div className="tutor-detail-card">
-        <img src={tutor.img_url} alt={`${tutor.firstname} ${tutor.lastname}`} />
+        <img src={tutor.img_url || 'https://via.placeholder.com/150'} alt={`${tutor.firstname} ${tutor.lastname}`} />
         <h2>{tutor.firstname} {tutor.lastname}</h2>
-        <p><strong>Subject:</strong> {tutor.subject}</p>
-        <p><strong>Description:</strong> {tutor.description}</p>
-        <p><strong>Availability:</strong> {tutor.availability}</p>
-        <p><strong>Rating:</strong> ⭐ {tutor.ratings}</p>
+        <p><strong>{t('tutorDetail.subject')}:</strong> {tutor.subject}</p>
+        <p><strong>{t('tutorDetail.description')}:</strong> {tutor.description || t('tutorDetail.noDescription')}</p>
+        <p><strong>{t('tutorDetail.availability')}:</strong> {tutor.availability || t('tutorDetail.noAvailability')}</p>
+        <p><strong>{t('tutorDetail.rating')}:</strong> ⭐ {tutor.ratings || 'N/A'}</p>
       </div>
 
       <div className="tutor-detail-buttons">
         <button className="go-back-button" onClick={() => navigate('/')}>
-          ← Go Back
+          ← {t('tutorDetail.back')}
         </button>
         <button className="go-back-button" onClick={() => navigate('/login')}>
-          Login
+          {t('tutorDetail.login')}
         </button>
         <button className="go-back-button" onClick={() => navigate('/signup')}>
-          Sign Up
+          {t('tutorDetail.signup')}
         </button>
       </div>
     </div>

@@ -157,7 +157,8 @@ body {
   background-color: #218838;
 }
 
-/* Login & Signup Page */
+/* 
+ & Signup Page */
 .login-container,
 .signup-container {
   max-width: 400px;
@@ -277,4 +278,58 @@ body {
 .signup-link a:hover {
   color: #0056b3;
   text-decoration: underline;
+}
+
+.footer {
+  background-color: #f8f8f8;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
+}
+
+.footer-content {
+  max-width: 960px;
+  margin: 0 auto;
+  color: #555;
+}
+
+.footer-links a {
+  color: #555;
+  margin: 0 8px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+
+.language-switcher {
+  background-color: #d0e7ff;
+  color: #0057b7;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.language-switcher:hover {
+  background-color: #b3d9ff;
+  opacity: 1;
 }
