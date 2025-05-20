@@ -55,6 +55,14 @@ CREATE TABLE Announcements (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE contact(
+    id SERIAL PRIMARY KEY,
+    fullname VARCHAR(99),
+    email VARCHAR(99),
+    subject VARCHAR(99),
+    message VARCHAR(999)
+)
+
 
 CREATE TABLE Admin (
     id SERIAL PRIMARY KEY,
