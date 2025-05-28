@@ -49,7 +49,7 @@ teacherController.register = async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Insert new teacher into the database
+        // Insert new teacher into the requests table
         const insertQuery = `
             INSERT INTO teacher_requests (
                 firstname, lastname, email, phone, address,

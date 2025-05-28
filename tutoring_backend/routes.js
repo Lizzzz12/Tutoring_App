@@ -59,7 +59,7 @@ router.delete('/reviews/:id',studMiddleware, reviewController.deleteReview);
 router.get('/announcementReviews/:id', announcementReviewController.getReviewsByAnnouncement);
 router.post('/announcementReviews', announcementReviewController.createReview);
 
-// Contact
+// Contact routes
 router.post('/contact', contactController.create);
 router.get('/from_contact_form', contactController.getAll);
 router.delete('/contact/:id', contactController.delete);
