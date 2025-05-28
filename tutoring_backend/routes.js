@@ -23,13 +23,7 @@ router.post('/admin/teachers/:id/reject', adminController.rejectTeacher);
 
 // STUDENTS
 router.get('/students', studentController.getAll);
-router.post('/student_register', async (req, res) => {
-  try {
-    await studentController.register(req, res);
-  } catch (err) {
-    return res.status(500).json({ message: req.t('error.register_failed') });
-  }
-});
+router.post('/student_register', studentController.register);
 router.post('/student_auth', studentController.login);
 router.get('/students_usernames', studentController.getUsernames);
 router.get("/students/:id", studentController.getStudentById);
