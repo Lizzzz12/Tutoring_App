@@ -59,5 +59,4 @@ contactController.delete = async (req, res) => {
   }
 };
 
-
 export default contactController;

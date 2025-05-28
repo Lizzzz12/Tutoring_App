@@ -1,21 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-const tutorMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+export default function studMiddleware(req, res, next) {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'No token provided' });
+  }
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    const token = authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // contains teacher's id
-        next();
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-};
-
-export default tutorMiddleware;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.studentId = decoded.id;
+    next();
+  } catch (err) {
+    res.status(401).json({ success: false, message: 'Invalid or expired token' });
+  }
+}

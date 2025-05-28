@@ -5,7 +5,6 @@ import "./i18n"; // Import the i18n configuration
 
 // Student interface imports
 import StudentDashboard from "./pages/studentComponent/student_dashboard";
-import AnnouncementDetails from "./pages/studentComponent/details";
 import Favorites from "./pages/studentComponent/favorites";
 
 // Main interface imports
@@ -20,6 +19,7 @@ import ProfileCards from "./pages/ProfileCards/ProfileCards";
 import TutorDetail from "./pages/ProfileCards/TutorDetails";
 import EditTeacherProfile from "./pages/tutor_page/EditTeacherProfile";
 import ForgotPassword from "./pages/ForgotPassword";
+import AnnouncementDetails from "./pages/studentComponent/details";
 // import Chatbot from "./components/Chatbot";
 
 const App = () => {
@@ -50,7 +50,8 @@ const App = () => {
           {/* Student-specific pages */}
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/teacher/:id" element={<AnnouncementDetails />} />
+          <Route path="/teacher/:id" element={AnnouncementDetails} />
+          {/* <Route path="/teacher/:id" element={<AnnouncementDetails />} /> */}
         </Routes>
       </MainLayout>
     </Router>
