@@ -23,7 +23,6 @@ adminController.login = async (req, res) => {
       return res.status(401).json({ success: false, message: "Incorrect password" });
     }
 
-    // Success - no token, just success true
     res.status(200).json({ success: true, message: "Login successful" });
   } catch (error) {
     console.error("Admin login error:", error);

@@ -31,4 +31,33 @@ contactController.create = (req, res) => {
   });
 };
 
+contactController.getAll = async (req, res) => {
+  try {
+    const result = await connection.query("SELECT * FROM contact");
+    res.status(200).json({ success: true, data: result.rows });
+  } catch (err) {
+    console.error("Error fetching contact messages:", err);
+    res.status(500).json({ success: false, message: "Failed to fetch contact messages." });
+  }
+};
+
+// Delete contact message by ID
+contactController.delete = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await connection.query("DELETE FROM contact WHERE id = $1", [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ success: false, message: "Message not found." });
+    }
+
+    res.status(200).json({ success: true, message: "Message deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting contact message:", err);
+    res.status(500).json({ success: false, message: "Failed to delete message." });
+  }
+};
+
+
 export default contactController;

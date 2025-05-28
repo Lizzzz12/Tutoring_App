@@ -16,8 +16,8 @@ import adminController from './controllers/adminController.js';
 const router = express.Router();
 
 // ADMIN
-router.post('/admin/login', adminController.login);
-router.get('/admin/teachers', adminController.getPendingTeachers);
+router.post('/admin', adminController.login);
+router.get('/admin/teacher_requests', adminController.getPendingTeachers);
 router.post('/admin/teachers/:id/approve', adminController.approveTeacher);
 router.post('/admin/teachers/:id/reject', adminController.rejectTeacher);
 
@@ -74,5 +74,7 @@ router.post('/announcementReviews', announcementReviewController.createReview);
 
 // Contact
 router.post('/contact', contactController.create);
+router.get('/from_contact_form', contactController.getAll);
+router.delete('/contact/:id', contactController.delete);
 
 export default router;
