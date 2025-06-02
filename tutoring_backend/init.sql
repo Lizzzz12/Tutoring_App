@@ -27,6 +27,26 @@ CREATE TABLE Teacher (
     password TEXT NOT NULL
 );
 
+CREATE TABLE teacher_requests (
+    id SERIAL PRIMARY KEY,
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    address TEXT,
+    description TEXT,
+    subject VARCHAR(255),
+    price DECIMAL(10,2),
+    img_url VARCHAR(255),
+    availability TEXT,
+    ratings DECIMAL(3,2) DEFAULT 0.0,
+    teacher_rating DECIMAL(3,2) DEFAULT 0.0,
+    status VARCHAR(20) DEFAULT 'pending',
+    tutoring_location TEXT CHECK (tutoring_location IN ('Online', 'In Person', 'Both')),
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
 CREATE TABLE AnnouncementReviews (
     id SERIAL PRIMARY KEY,
     announcement_id INT REFERENCES Announcements(id) ON DELETE CASCADE,

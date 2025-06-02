@@ -1,59 +1,64 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import "./i18n"; // Import the i18n configuration
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
 
-// Student interface imports
-import StudentDashboard from "./pages/studentComponent/student_dashboard";
-import AnnouncementDetails from "./pages/studentComponent/details";
-import Favorites from "./pages/studentComponent/favorites";
+// Admin
+import AdminLogin from './adminComponent/AdminLogin';
 
-// Main interface imports
-import MainLayout from "./components/MainLayout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Profile from "./pages/Profile";
-import TeacherProfile from "./pages/tutor_page/TeacherProfile";
-import ProfileCards from "./pages/ProfileCards/ProfileCards";
-import TutorDetail from "./pages/ProfileCards/TutorDetails";
-import EditTeacherProfile from "./pages/tutor_page/EditTeacherProfile";
-import ForgotPassword from "./pages/ForgotPassword";
-// import Chatbot from "./components/Chatbot";
+// Credentials Change
+// import ChangeCredentials from './ChangeCredentials';
+import ChangeStudentCredentials from './components/ChangeStudentCredentials';
+
+// Register && Login
+import RegisterForm from './RegisterForm';
+import CombinedLogin from './CombinedLogin';
+
+// Student Side
+// import Login from './components/Login';
+// import Register from './components/Register';
+import AnnouncementDetails from './components/Details';
+import StudentDashboard from './components/StudentDashboard';
+import Favorites from './components/Favourites';
+import TeacherProfile from './components/TeacherProfile';
+
+// Tutor Side
+import TeacherDashboard from './teacherComponent/teacherDashboard';
+import EditTeacherProfile from './teacherComponent/EditTeacherProfile';
+// import TeacherLogin from './teacherComponent/teacherLogin';
+// import TeacherRegisterForm from './teacherComponent/TRegister';
+import AdminDashboard from './adminComponent/AdminDashboard';
+
+import Home from './Home';
 
 const App = () => {
-  const { i18n } = useTranslation();
-
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang);
-  };
-
   return (
-    <Router>
-      <MainLayout>
+    <AuthProvider>
+      <Router>
         <Routes>
-          {/* General pages */}
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/teacher-profile/:id" element={<TeacherProfile />} />
-          <Route path="/teacher-profile" element={<TeacherProfile />} />
-          <Route path="/profilecards" element={<ProfileCards />} />
-          <Route path="/tutor/:id" element={<TutorDetail />} />
-          <Route path="/edit-teacher-profile" element={<EditTeacherProfile />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/chatbot" element={<Chatbot />} /> */}
-
-          {/* Student-specific pages */}
+          <Route path="/" element={<Home />}/>
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/announcements/:id" element={<AnnouncementDetails />} />
+          <Route path="/teacher-profile/:teacherId" element={<TeacherProfile />} />
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/teacher/:id" element={<AnnouncementDetails />} />
+
+          <Route path='/main_register_form' element={<RegisterForm />}></Route>
+          <Route path='/main_login_form' element={<CombinedLogin />}></Route>
+
+          {/* <Route path="/teacher_login" element={<TeacherLogin />}/> */}
+          <Route path="/teacher_dashboard" element={<TeacherDashboard />}/>
+          <Route path="/edit_teacher/:id" element={<EditTeacherProfile />}/>
+          {/* <Route path="/teacher_reg" element={<TeacherRegisterForm />}/> */}
+
+          <Route path="/student/change_credentials/:id" element={<ChangeStudentCredentials />} />
+
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
         </Routes>
-      </MainLayout>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 };
 

@@ -22,10 +22,9 @@ announcementReviewController.getReviewsByAnnouncement = async (req, res) => {
             WHERE r.announcement_id = $1
             ORDER BY r.created_at DESC
         `;
-
         const result = await connection.query(query, [announcementIdInt]);
 
-        if (result.rowCount === 0) {
+        if (!result || result.rowCount === 0) {
             return res.status(404).json({
                 success: false,
                 message: "No reviews found for this announcement",
@@ -63,13 +62,7 @@ announcementReviewController.createReview = async (req, res) => {
             VALUES ($1, $2, $3, $4)
             RETURNING id, student_id, announcement_id, rating, review, created_at
         `;
-
-        const result = await connection.query(query, [
-            student_id,
-            announcement_id,
-            rating,
-            review,
-        ]);
+        const result = await connection.query(query, [student_id, announcement_id, rating, review]);
 
         res.status(201).json({
             success: true,
