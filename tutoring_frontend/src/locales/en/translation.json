@@ -1,0 +1,90 @@
+{
+  "navbar": {
+    "brand": "TutorFind",
+    "login": "Login",
+    "register": "Register"
+  },
+  "hero": {
+    "title": "Find Your Perfect <1>Tutor</1>",
+    "description": "Connect with expert tutors and unlock your academic potential",
+    "cta": "Get Started Today"
+  },
+  "subjects": {
+    "title": "Subjects We Cover",
+    "description": "From mathematics to literature, we have expert tutors for every subject",
+    "math": "Mathematics",
+    "physics": "Physics"
+  },
+  "tutors": {
+    "title": "Meet Our Top Tutors",
+    "description": "Learn from experienced professionals who are passionate about teaching",
+    "viewProfile": "View Profile",
+    "students": "students",
+    "aliceDesc": "Expert in Mathematics and Physics with 10+ years of experience."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Have questions? We'd love to hear from you.",
+    "fullName": "Full Name",
+    "email": "Email Address"
+  },
+  "loading": "Loading translations...",
+  "error": {
+    "generic": "Something went wrong!"
+  },
+
+  "adminLogin": {
+    "title": "Admin Login",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "errorInvalid": "Invalid credentials.",
+    "errorFailed": "Login failed. Please check your credentials."
+  },
+  "adminDashboard": {
+    "title": "Admin Dashboard",
+    "subtitle": "TutorFind Administration Panel",
+    "logout": "Logout",
+    "stats": {
+      "pendingTeachers": "Pending Teacher Requests",
+      "totalMessages": "Contact Messages",
+      "approvedToday": "Approved Today"
+    },
+    "message": {
+      "loading": "Loading admin dashboard...",
+      "success": "Success",
+      "error": "An error occurred"
+    },
+    "tabs": {
+      "teachers": "Teacher Requests",
+      "messages": "Contact Messages"
+    },
+    "teachers": {
+      "sectionTitle": "Pending Teacher Registrations",
+      "noTeachers": "No pending teacher registrations at the moment.",
+      "allCaughtUp": "All caught up!",
+      "email": "Email",
+      "phone": "Phone",
+      "price": "Price",
+      "descriptionFallback": "No description provided.",
+      "subjectFallback": "No subject specified",
+      "priceFallback": "N/A",
+      "approve": "Approve",
+      "reject": "Reject",
+      "processing": "Processing..."
+    },
+    "messages": {
+      "sectionTitle": "Contact Form Submissions",
+      "noMessages": "No contact form submissions have been received.",
+      "subject": "Subject",
+      "message": "Message",
+      "delete": "Delete"
+    },
+    "confirm": {
+      "rejectTeacher": "Are you sure you want to reject this teacher request?",
+      "deleteMessage": "Are you sure you want to delete this message?",
+      "logout": "Are you sure you want to logout?"
+    }
+  }
+
+}
