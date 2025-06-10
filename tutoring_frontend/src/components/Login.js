@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
+
 
 const Login = () => {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -53,7 +57,6 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
           <input

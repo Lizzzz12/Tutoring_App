@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
+
 
 const AnnouncementDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -82,13 +86,13 @@ const AnnouncementDetails = () => {
     e.preventDefault()
 
     if (!studentId.trim() || !rating || !reviewText.trim()) {
-      alert("All fields are required.")
+      alert(t('announcement.alert'))
       return
     }
 
     const numericRating = Number(rating)
     if (numericRating < 1 || numericRating > 5) {
-      alert("Rating must be between 1 and 5.")
+      alert(t('announcement.rate'))
       return
     }
 
@@ -186,6 +190,7 @@ const AnnouncementDetails = () => {
             margin: "0 20px",
           }}
         >
+          
           <div style={{ fontSize: "4rem", marginBottom: "20px" }}>⚠️</div>
           <h2
             style={{
@@ -222,10 +227,12 @@ const AnnouncementDetails = () => {
             onMouseLeave={(e) => {
               e.target.style.transform = "translateY(0)"
               e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
-            }}
-          >
-            ← Back to Dashboard
+            }} 
+            >
+              
+            ← {t("announcement.backtodashboard")}
           </button>
+          
         </div>
       </div>
     )
@@ -279,7 +286,9 @@ const AnnouncementDetails = () => {
                   backgroundClip: "text",
                 }}
               >
-                Tutoring Details
+                {/* Tutoring Details */}
+                {t("announcement.tutoringdetails")}
+                
               </h1>
               <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>
                 {announcement?.subject || "Subject Information"}
@@ -287,6 +296,7 @@ const AnnouncementDetails = () => {
             </div>
           </div>
 
+        <LanguageSwitcher />
           <button
             onClick={() => navigate("/dashboard")}
             style={{
@@ -316,7 +326,7 @@ const AnnouncementDetails = () => {
               e.target.style.boxShadow = "none"
             }}
           >
-            ← Back to Dashboard
+            {t("announcement.backtodashboard")}
           </button>
         </div>
       </div>
@@ -362,7 +372,7 @@ const AnnouncementDetails = () => {
               >
                 {announcement?.subject || "No Subject Provided"}
               </h2>
-              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>Tutoring Session Details</p>
+              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>{t('announcement.details')}</p>
             </div>
           </div>
 
@@ -383,7 +393,7 @@ const AnnouncementDetails = () => {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
                 <span style={{ fontSize: "1.5rem" }}>💰</span>
-                <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>Pricing</h3>
+                <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>{t('footer.platform.pricing')}</h3>
               </div>
               <div
                 style={{
@@ -394,9 +404,9 @@ const AnnouncementDetails = () => {
                 }}
               >
                 ${announcement?.price || "0"}
-                <span style={{ fontSize: "1rem", fontWeight: "500", color: "#64748b" }}>/hour</span>
+                <span style={{ fontSize: "1rem", fontWeight: "500", color: "#64748b" }}>/{t("announcement.hour")}</span>
               </div>
-              <p style={{ margin: 0, color: "#64748b", fontSize: "0.9rem" }}>Competitive hourly rate</p>
+              <p style={{ margin: 0, color: "#64748b", fontSize: "0.9rem" }}>{t("announcement.hourlyRate")}</p>
             </div>
 
             <div
@@ -409,7 +419,7 @@ const AnnouncementDetails = () => {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
                 <span style={{ fontSize: "1.5rem" }}>📅</span>
-                <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>Posted Date</h3>
+                <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>{t("announcement.date")}</h3>
               </div>
               <div
                 style={{
@@ -422,10 +432,11 @@ const AnnouncementDetails = () => {
                 {announcement?.created_at ? new Date(announcement.created_at).toLocaleDateString() : "Unknown"}
               </div>
               <p style={{ margin: 0, color: "#92400e", fontSize: "0.9rem", opacity: 0.8 }}>
-                When this session was posted
+               {t('announcement.post')}
               </p>
             </div>
           </div>
+
 
           <div
             style={{
@@ -438,7 +449,7 @@ const AnnouncementDetails = () => {
           >
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
               <span style={{ fontSize: "1.5rem" }}>📝</span>
-              <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>Description</h3>
+              <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#374151" }}>{t('announcement.description')}</h3>
             </div>
             <p
               style={{
@@ -448,7 +459,7 @@ const AnnouncementDetails = () => {
                 fontSize: "1rem",
               }}
             >
-              {announcement?.content || "No description provided for this tutoring session."}
+              {announcement?.content || t("announcement.nodescription")}
             </p>
           </div>
         </div>
@@ -490,9 +501,9 @@ const AnnouncementDetails = () => {
                   marginBottom: "4px",
                 }}
               >
-                Teacher Information
+                {t('announcement.teacherinfo')}
               </h3>
-              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>Meet your potential tutor</p>
+              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>{t('announcement.potentialtutor')}</p>
             </div>
           </div>
 
@@ -539,7 +550,7 @@ const AnnouncementDetails = () => {
                   >
                     {teacher.firstname} {teacher.lastname}
                   </h4>
-                  <p style={{ margin: 0, color: "#059669", fontSize: "1rem", fontWeight: "500" }}>Professional Tutor</p>
+                  <p style={{ margin: 0, color: "#059669", fontSize: "1rem", fontWeight: "500" }}>{t('announcement.professionaltutor')}</p>
                 </div>
               </div>
 
@@ -554,7 +565,7 @@ const AnnouncementDetails = () => {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
                   <span style={{ fontSize: "1.2rem" }}>⏰</span>
-                  <span style={{ fontWeight: "600", color: "#374151", fontSize: "1rem" }}>Availability:</span>
+                  <span style={{ fontWeight: "600", color: "#374151", fontSize: "1rem" }}>{t("announcement.Availability")}:</span>
                 </div>
                 <p
                   style={{
@@ -564,7 +575,7 @@ const AnnouncementDetails = () => {
                     fontWeight: "500",
                   }}
                 >
-                  {teacher.availability || "Please contact for availability information"}
+                  {teacher.availability || t("announcement.contactTutor")}
                 </p>
               </div>
 
@@ -594,7 +605,7 @@ const AnnouncementDetails = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(6, 182, 212, 0.3)"
                 }}
               >
-                ℹ️ More Information About This Teacher
+                ℹ️ {t("announcement.moreinfo")}
               </button>
             </div>
           ) : (
@@ -660,10 +671,10 @@ const AnnouncementDetails = () => {
                   marginBottom: "4px",
                 }}
               >
-                Student Reviews
+                {t("announcement.studentReviews")}
               </h3>
               <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>
-                {reviews.length} {reviews.length === 1 ? "review" : "reviews"} from students
+                {reviews.length} {reviews.length === 1 ? "review" : "reviews"} {t("announcement.fromstudents")}
               </p>
             </div>
           </div>
@@ -681,10 +692,10 @@ const AnnouncementDetails = () => {
             >
               <div style={{ fontSize: "4rem", marginBottom: "20px" }}>💭</div>
               <h4 style={{ margin: "0 0 8px 0", fontSize: "1.3rem", fontWeight: "600", color: "#92400e" }}>
-                No reviews yet
+                {t("announcement.noReviewsYet")}
               </h4>
               <p style={{ margin: 0, fontSize: "1rem", color: "#92400e", opacity: 0.8 }}>
-                Be the first to leave a review for this tutor!
+                {t("announcement.reviewPlaceholder")}
               </p>
             </div>
           ) : (
@@ -814,11 +825,11 @@ const AnnouncementDetails = () => {
                   color: "#1a1a1a",
                 }}
               >
-                Leave a Review
+                {t("announcement.leaveReview")}
               </h4>
             </div>
             <p style={{ margin: "0 0 24px 0", color: "#64748b", fontSize: "1rem" }}>
-              Share your experience with this tutor to help other students make informed decisions.
+              {t("announcement.share")}
             </p>
 
             <form onSubmit={handleReviewSubmit}>
@@ -840,7 +851,7 @@ const AnnouncementDetails = () => {
                       fontSize: "0.95rem",
                     }}
                   >
-                    👤 Student ID
+                    👤 {t("announcement.studentId")}
                   </label>
                   <input
                     type="text"
@@ -857,7 +868,7 @@ const AnnouncementDetails = () => {
                     }}
                     value={studentId}
                     onChange={(e) => setStudentId(e.target.value)}
-                    placeholder="Enter your student ID"
+                    placeholder={t("announcement.placeholder")}
                     onFocus={(e) => {
                       e.target.style.borderColor = "#667eea"
                       e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.1)"
@@ -878,7 +889,7 @@ const AnnouncementDetails = () => {
                       fontSize: "0.95rem",
                     }}
                   >
-                    ⭐ Rating (1-5)
+                    ⭐ {t("announcement.rating")} (1-5)
                   </label>
                   <input
                     type="number"
@@ -897,7 +908,7 @@ const AnnouncementDetails = () => {
                     }}
                     value={rating}
                     onChange={(e) => setRating(e.target.value)}
-                    placeholder="Rate 1-5 stars"
+                    placeholder={t("announcement.ratingPlaceholder")}
                     onFocus={(e) => {
                       e.target.style.borderColor = "#667eea"
                       e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.1)"
@@ -919,7 +930,7 @@ const AnnouncementDetails = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  💬 Your Review
+                  💬 {t("announcement.yourReview")}
                 </label>
                 <textarea
                   rows="5"
@@ -938,7 +949,7 @@ const AnnouncementDetails = () => {
                   }}
                   value={reviewText}
                   onChange={(e) => setReviewText(e.target.value)}
-                  placeholder="Share your experience with this tutor. What did you like? How did they help you learn?"
+                  placeholder= {t("announcement.reviewPlaceholderText")}
                   onFocus={(e) => {
                     e.target.style.borderColor = "#667eea"
                     e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.1)"
@@ -975,7 +986,7 @@ const AnnouncementDetails = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
                 }}
               >
-                🚀 Submit Review
+                🚀 {t("announcement.submit")}
               </button>
             </form>
           </div>

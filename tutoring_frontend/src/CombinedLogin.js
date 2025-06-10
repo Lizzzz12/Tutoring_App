@@ -2,8 +2,11 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const CombinedLogin = () => {
+  const { t } = useTranslation();
   const [role, setRole] = useState("student")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -83,6 +86,8 @@ const CombinedLogin = () => {
           zIndex: 1,
         }}
       ></div>
+      
+      <LanguageSwitcher />
       <div
         style={{
           position: "absolute",
@@ -132,7 +137,7 @@ const CombinedLogin = () => {
               backgroundClip: "text",
             }}
           >
-            Welcome Back
+            {t("login.welcome")}
           </h2>
           <p
             style={{
@@ -141,7 +146,7 @@ const CombinedLogin = () => {
               fontSize: "1rem",
             }}
           >
-            Sign in to your account to continue
+            {t("login.description")}
           </p>
         </div>
 
@@ -157,7 +162,7 @@ const CombinedLogin = () => {
             }}
           >
             <span style={{ marginRight: "8px" }}>👤</span>
-            Login as
+            {t("login.selectRole")}
           </label>
           <select
             style={{
@@ -182,8 +187,8 @@ const CombinedLogin = () => {
               e.target.style.boxShadow = "none"
             }}
           >
-            <option value="student">🎓 Student</option>
-            <option value="teacher">👨‍🏫 Teacher</option>
+            <option value="student">🎓 {t("login.student")}</option>
+            <option value="teacher">👨‍🏫 {t("login.teacher")}</option>
           </select>
         </div>
 
@@ -200,7 +205,7 @@ const CombinedLogin = () => {
               }}
             >
               <span style={{ marginRight: "8px" }}>✉️</span>
-              Username
+              {t("login.username")}
             </label>
             <input
               type="text"
@@ -225,7 +230,7 @@ const CombinedLogin = () => {
                 e.target.style.boxShadow = "none"
               }}
               required
-              placeholder="Enter your username"
+              placeholder={t("login.usernamePlaceholder")}
             />
           </div>
 
@@ -241,7 +246,7 @@ const CombinedLogin = () => {
               }}
             >
               <span style={{ marginRight: "8px" }}>🔒</span>
-              Password
+              {t("login.password")}
             </label>
             <input
               type="password"
@@ -266,7 +271,7 @@ const CombinedLogin = () => {
                 e.target.style.boxShadow = "none"
               }}
               required
-              placeholder="Enter your password"
+              placeholder={t("login.passwordPlaceholder")}
             />
           </div>
 
@@ -342,7 +347,7 @@ const CombinedLogin = () => {
                 Signing in...
               </>
             ) : (
-              <>🚀 Sign In</>
+              <>🚀 {t("login.Signinbtn")}</>
             )}
           </button>
         </form>
@@ -360,7 +365,7 @@ const CombinedLogin = () => {
             }}
           >
             <span style={{ color: "#64748b", fontSize: "0.9rem" }}>
-              Don't have an account?{" "}
+              {t("login.dontHaveAccount")}{" "}
               <Link
                 to="/main_register_form"
                 style={{
@@ -372,7 +377,7 @@ const CombinedLogin = () => {
                 onMouseEnter={(e) => (e.target.style.color = "#4f46e5")}
                 onMouseLeave={(e) => (e.target.style.color = "#667eea")}
               >
-                Sign up here
+                {t("login.sighnup")}
               </Link>
             </span>
           </div>
@@ -410,7 +415,7 @@ const CombinedLogin = () => {
               e.target.style.background = "transparent"
             }}
           >
-            ← Go Back to Home
+            ← {t("login.goback")}
           </Link>
         </div>
       </div>

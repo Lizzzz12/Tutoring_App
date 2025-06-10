@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
 import { useTranslation, Trans } from "react-i18next";
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -53,21 +54,21 @@ const Home = () => {
   ]
 
   const subjects = [
-    "Mathematics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "English",
-    "History",
-    "Geography",
-    "Computer Science",
-    "Economics",
-    "Literature",
-    "French",
-    "German",
-    "Spanish",
-    "Art",
-    "Etc",
+    t('subjects.math'),
+    t('subjects.physics'),
+    t('subjects.chemistry'),
+    t('subjects.biology'),
+    t('subjects.english'),
+    t('subjects.history'),
+    t('subjects.geography'),
+    t('subjects.computerScience'),
+    t('subjects.economics'),
+    t('subjects.literature'),
+    t('subjects.french'),
+    t('subjects.german'),
+    t('subjects.spanish'),
+    t('subjects.art'),    
+    t('subjects.etc')
   ]
 
   const tutors = [
@@ -157,11 +158,11 @@ const Home = () => {
           <div className="hero-content">
             <div className="hero-text">
               <h1 className="hero-title">
-                Find Your Perfect <span className="gradient-text">Tutor</span>
+                {t('hero.title')} <span className="gradient-text">{t('hero.title1')}</span>
               </h1>
-              <p className="hero-description">Connect with expert tutors and unlock your academic potential</p>
+              <p className="hero-description">{t('hero.description')}</p>
               <button className="btn btn-hero" onClick={() => navigate("/main_login_form")}>
-                Get Started Today
+                {t('hero.cta')}
                 <span className="btn-arrow">→</span>
               </button>
             </div>
@@ -192,9 +193,9 @@ const Home = () => {
       <section className="subjects-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Subjects We Cover</h2>
+            <h2 className="section-title">{t('subjects.title')}</h2>
             <p className="section-description">
-              From mathematics to literature, we have expert tutors for every subject
+              {t('subjects.description')}
             </p>
           </div>
 
@@ -213,9 +214,9 @@ const Home = () => {
       <section className="tutors-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Meet Our Top Tutors</h2>
+            <h2 className="section-title">{t("tutors.title")}</h2>
             <p className="section-description">
-              Learn from experienced professionals who are passionate about teaching
+              {t("tutors.description")}
             </p>
           </div>
 
@@ -236,9 +237,9 @@ const Home = () => {
                       <span className="star">⭐</span>
                       <span className="rating-value">{tutor.rating}</span>
                     </div>
-                    <div className="tutor-students">{tutor.students} students</div>
+                    <div className="tutor-students">{tutor.students} {t("tutors.students")}</div>
                   </div>
-                  <button className="btn btn-primary btn-full">View Profile</button>
+                  <button className="btn btn-primary btn-full">{t("tutors.viewProfile")}</button>
                 </div>
               </div>
             ))}
@@ -249,29 +250,26 @@ const Home = () => {
       {/* About Us Section */}
       <section className="about-section">
         <div className="container">
-          <h2 className="section-title">About TutorFind</h2>
+          <h2 className="section-title">{t('tutors.aboutTutorfind')}</h2>
           <div className="about-content">
             <p className="about-text">
-              TutorFind is a platform that connects students with qualified tutors across various subjects and
-              educational levels. Whether you're looking for help in math, languages, science, or coding, our platform
-              ensures you find the best match for your learning goals. We support both in-person and online tutoring to
-              meet your schedule and preferences.
+              {t('tutors.aboutDescription')}
             </p>
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon">👥</div>
                 <div className="stat-number">10K+</div>
-                <div className="stat-label">Active Students</div>
+                <div className="stat-label">{t('tutors.activestudents')}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">🎓</div>
                 <div className="stat-number">500+</div>
-                <div className="stat-label">Expert Tutors</div>
+                <div className="stat-label">{t('tutors.experttutors')}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-icon">⭐</div>
                 <div className="stat-number">4.9</div>
-                <div className="stat-label">Average Rating</div>
+                <div className="stat-label">{t('tutors.averageRating')}</div>
               </div>
             </div>
           </div>
@@ -282,8 +280,8 @@ const Home = () => {
       <section className="contact-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Contact Us</h2>
-            <p className="section-description">Have questions? We'd love to hear from you.</p>
+            <h2 className="section-title">{t('contact.title')}</h2>
+            <p className="section-description">{t('contact.description')}</p>
           </div>
 
           <div className="contact-card">
@@ -292,7 +290,7 @@ const Home = () => {
                 <div className="form-group">
                   <label htmlFor="fullname" className="form-label">
                     <span className="label-icon">👤</span>
-                    Full Name
+                    {t('contact.fullName')}
                   </label>
                   <input
                     type="text"
@@ -300,14 +298,14 @@ const Home = () => {
                     value={formData.fullname}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter your full name"
+                    placeholder={t('contact.fullNamePlaceholder')}
                     required
                   />
                 </div>
                 <div className="form-group">
                   <label htmlFor="email" className="form-label">
                     <span className="label-icon">✉️</span>
-                    Email Address
+                    {t('contact.email')}
                   </label>
                   <input
                     type="email"
@@ -315,7 +313,7 @@ const Home = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter your email"
+                    placeholder={t('contact.emailPlaceholder')}
                     required
                   />
                 </div>
@@ -324,7 +322,7 @@ const Home = () => {
               <div className="form-group">
                 <label htmlFor="subject" className="form-label">
                   <span className="label-icon">📄</span>
-                  Subject
+                  {t('contact.subject')}
                 </label>
                 <input
                   type="text"
@@ -332,7 +330,7 @@ const Home = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   className="form-input"
-                  placeholder="Subject of your message"
+                  placeholder={t('contact.subjectPlaceholder')}
                   required
                 />
               </div>
@@ -340,7 +338,7 @@ const Home = () => {
               <div className="form-group">
                 <label htmlFor="message" className="form-label">
                   <span className="label-icon">💬</span>
-                  Message
+                  {t('contact.message')}
                 </label>
                 <textarea
                   id="message"
@@ -348,13 +346,13 @@ const Home = () => {
                   onChange={handleChange}
                   rows={5}
                   className="form-textarea"
-                  placeholder="Write your message here..."
+                  placeholder={t('contact.messagePlaceholder')}
                   required
                 />
               </div>
 
               <button type="submit" className="btn btn-primary btn-full btn-large">
-                Send Message
+                {t('contact.submit')}
                 <span className="btn-icon">📤</span>
               </button>
             </form>
@@ -372,63 +370,62 @@ const Home = () => {
                 <span className="footer-title">TutorFind</span>
               </div>
               <p className="footer-description">
-                Connecting students with expert tutors worldwide for personalized learning experiences.
-              </p>
+                {t('footer.description')}</p>
             </div>
             <div className="footer-section">
-              <h3 className="footer-heading">Platform</h3>
+              <h3 className="footer-heading">{t('footer.platform.platform')}</h3>
               <ul className="footer-links">
                 <li>
-                  <a href="#">Find Tutors</a>
+                  <a href="#">{t('footer.platform.findTutor')}</a>
                 </li>
                 <li>
-                  <a href="#">Become a Tutor</a>
+                  <a href="#">{t('footer.platform.becometutor')}</a>
                 </li>
                 <li>
-                  <a href="#">Subjects</a>
+                  <a href="#">{t('footer.platform.subject')}</a>
                 </li>
                 <li>
-                  <a href="#">Pricing</a>
+                  <a href="#">{t('footer.platform.pricing')}</a>
                 </li>
               </ul>
             </div>
             <div className="footer-section">
-              <h3 className="footer-heading">Support</h3>
+              <h3 className="footer-heading">{t('footer.Support.support')}</h3>
               <ul className="footer-links">
                 <li>
-                  <a href="#">Help Center</a>
+                  <a href="#">{t('footer.Support.help')}</a>
                 </li>
                 <li>
-                  <a href="#">Contact Us</a>
+                  <a href="#">{t('footer.Support.contact')}</a>
                 </li>
                 <li>
-                  <a href="#">Safety</a>
+                  <a href="#">{t('footer.Support.safety')}</a>
                 </li>
                 <li>
-                  <a href="#">Community</a>
+                  <a href="#">{t('footer.Support.comunity')}</a>
                 </li>
               </ul>
             </div>
             <div className="footer-section">
-              <h3 className="footer-heading">Company</h3>
+              <h3 className="footer-heading">{t('footer.Company.company')}</h3>
               <ul className="footer-links">
                 <li>
-                  <a href="#">About</a>
+                  <a href="#">{t('footer.Company.about')}</a>
                 </li>
                 <li>
-                  <a href="#">Careers</a>
+                  <a href="#">{t('footer.Company.careers')}</a>
                 </li>
                 <li>
-                  <a href="#">Press</a>
+                  <a href="#">{t('footer.Company.press')}</a>
                 </li>
                 <li>
-                  <a href="#">Blog</a>
+                  <a href="#">{t('footer.Company.blog')}</a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2025 TutorFind. All rights reserved.</p>
+            <p>&copy; {t('footer.rigths')}</p>
           </div>
         </div>
       </footer>

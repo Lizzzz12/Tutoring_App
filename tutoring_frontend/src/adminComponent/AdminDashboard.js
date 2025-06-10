@@ -40,7 +40,7 @@ const AdminDashboard = () => {
         })
       } catch (err) {
         console.error("Error fetching data:", err)
-        setMessage("Failed to load data.")
+        setMessage(t('adminDashboard.message.error'))
         setMessageType("error")
       } finally {
         setLoading(false)
@@ -51,8 +51,8 @@ const AdminDashboard = () => {
   }, [])
 
   const handleAction = async (id, action) => {
-    if (action === "reject" && !window.confirm("Are you sure you want to reject this teacher request?")) {
-      return
+    if (action === "reject" && !window.confirm(t('adminDashboard.confirm.rejectTeacher'))) {
+         return
     }
 
     setActionLoadingId(id)
@@ -85,12 +85,13 @@ const AdminDashboard = () => {
   }
 
   const handleDeleteMessage = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this message?")) return
+    if (!window.confirm(t('adminDashboard.confirm.deleteMessage'))) 
+      return
 
     try {
       await axios.delete(`http://localhost:5000/api/contact/${id}`)
       setContactMessages((prev) => prev.filter((msg) => msg.id !== id))
-      setMessage("Message deleted successfully.")
+      setMessage(t('adminDashboard.messages.delete'))
       setMessageType("success")
 
       // Update stats
@@ -106,7 +107,7 @@ const AdminDashboard = () => {
   }
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
+   if (window.confirm(t('adminDashboard.confirm.logout'))) {
       window.location.href = "http://localhost:3000/admin"
     }
   }
@@ -200,9 +201,9 @@ const AdminDashboard = () => {
                   backgroundClip: "text",
                 }}
               >
-                Admin Dashboard
+                {t('adminDashboard.title')}
               </h1>
-              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>TutorFind Administration Panel</p>
+              <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>{t('adminDashboard.subtitle')}</p>
             
             </div>
           </div>
@@ -273,8 +274,8 @@ const AdminDashboard = () => {
           >
             <div style={{ fontSize: "2rem", marginBottom: "8px" }}>👨‍🏫</div>
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>{stats.pendingTeachers}</div>
-            <div style={{ opacity: 0.9 }}>Pending Teacher Requests</div>
-          </div>
+            <div style={{ opacity: 0.9 }}>{t('adminDashboard.stats.pendingTeachers')}</div>
+ </div>
           <div
             style={{
               background: "linear-gradient(135deg, #059669, #047857)",
@@ -286,7 +287,7 @@ const AdminDashboard = () => {
           >
             <div style={{ fontSize: "2rem", marginBottom: "8px" }}>📧</div>
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>{stats.totalMessages}</div>
-            <div style={{ opacity: 0.9 }}>Contact Messages</div>
+            <div style={{ opacity: 0.9 }}>{t('adminDashboard.stats.totalMessages')}</div>
           </div>
           <div
             style={{
@@ -299,7 +300,7 @@ const AdminDashboard = () => {
           >
             <div style={{ fontSize: "2rem", marginBottom: "8px" }}>✅</div>
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>{stats.approvedToday}</div>
-            <div style={{ opacity: 0.9 }}>Approved Today</div>
+            <div style={{ opacity: 0.9 }}>{t('adminDashboard.stats.approvedToday')}</div>
           </div>
         </div>
 
@@ -359,7 +360,7 @@ const AdminDashboard = () => {
               gap: "8px",
             }}
           >
-            👨‍🏫 Teacher Requests ({stats.pendingTeachers})
+            👨‍🏫 {t('adminDashboard.tabs.teachers')} ({stats.pendingTeachers})
           </button>
           <button
             onClick={() => setActiveTab("messages")}
@@ -380,7 +381,7 @@ const AdminDashboard = () => {
               gap: "8px",
             }}
           >
-            📧 Contact Messages ({stats.totalMessages})
+            📧 {t('adminDashboard.tabs.messages')} ({stats.totalMessages})
           </button>
         </div>
 
@@ -400,7 +401,7 @@ const AdminDashboard = () => {
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
                 <span style={{ fontSize: "1.5rem" }}>👨‍🏫</span>
                 <h3 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#1a1a1a" }}>
-                  Pending Teacher Registrations
+                  {t('adminDashboard.teachers.sectionTitle')}
                 </h3>
               </div>
 
@@ -417,9 +418,9 @@ const AdminDashboard = () => {
                 >
                   <div style={{ fontSize: "4rem", marginBottom: "20px" }}>✨</div>
                   <h4 style={{ margin: "0 0 8px 0", fontSize: "1.3rem", fontWeight: "600", color: "#374151" }}>
-                    All caught up!
+                    {t('adminDashboard.teachers.allCaughtUp')}
                   </h4>
-                  <p style={{ margin: 0, fontSize: "1rem" }}>No pending teacher registrations at the moment.</p>
+                  <p style={{ margin: 0, fontSize: "1rem" }}>{t('adminDashboard.teachers.noTeachers')}</p>
                 </div>
               ) : (
                 <div style={{ display: "grid", gap: "20px" }}>
@@ -491,7 +492,7 @@ const AdminDashboard = () => {
                                   display: "inline-block",
                                 }}
                               >
-                                {teacher.subject || "No subject specified"}
+                                {teacher.subject || t('adminDashboard.teachers.subjectFallback')}
                               </div>
                             </div>
                           </div>
@@ -504,7 +505,7 @@ const AdminDashboard = () => {
                               fontSize: "1rem",
                             }}
                           >
-                            {teacher.description || "No description provided."}
+                            {teacher.description ||t('adminDashboard.teachers.descriptionFallback')}
                           </p>
 
                           <div
@@ -523,7 +524,7 @@ const AdminDashboard = () => {
                                 border: "1px solid #a7f3d0",
                               }}
                             >
-                              <div style={{ fontSize: "0.8rem", color: "#059669", fontWeight: "600" }}>📧 Email</div>
+                              <div style={{ fontSize: "0.8rem", color: "#059669", fontWeight: "600" }}>📧 {t('adminDashboard.teachers.email')}</div>
                               <div style={{ fontSize: "0.9rem", color: "#065f46" }}>{teacher.email}</div>
                             </div>
                             <div
@@ -534,7 +535,7 @@ const AdminDashboard = () => {
                                 border: "1px solid #f59e0b",
                               }}
                             >
-                              <div style={{ fontSize: "0.8rem", color: "#d97706", fontWeight: "600" }}>📞 Phone</div>
+                              <div style={{ fontSize: "0.8rem", color: "#d97706", fontWeight: "600" }}>📞 {t('adminDashboard.teachers.phone')}</div>
                               <div style={{ fontSize: "0.9rem", color: "#92400e" }}>{teacher.phone || "N/A"}</div>
                             </div>
                             <div
@@ -545,7 +546,7 @@ const AdminDashboard = () => {
                                 border: "1px solid #f9a8d4",
                               }}
                             >
-                              <div style={{ fontSize: "0.8rem", color: "#be185d", fontWeight: "600" }}>💰 Price</div>
+                              <div style={{ fontSize: "0.8rem", color: "#be185d", fontWeight: "600" }}>💰 {t('adminDashboard.teachers.price')}</div>
                               <div style={{ fontSize: "0.9rem", color: "#9d174d" }}>
                                 {teacher.price != null ? `$${teacher.price}/hr` : "N/A"}
                               </div>
@@ -601,10 +602,11 @@ const AdminDashboard = () => {
                                   animation: "spin 1s linear infinite",
                                 }}
                               ></div>
-                              Processing...
+                              {t('adminDashboard.teachers.processing')}
                             </>
                           ) : (
-                            <>✅ Approve</>
+                            <>✅ {t('adminDashboard.teachers.approve')}
+</>
                           )}
                         </button>
                         <button
@@ -653,10 +655,10 @@ const AdminDashboard = () => {
                                   animation: "spin 1s linear infinite",
                                 }}
                               ></div>
-                              Processing...
+                              {t('adminDashboard.teachers.processing')}
                             </>
                           ) : (
-                            <>❌ Reject</>
+                            <>❌ {t('adminDashboard.teachers.reject')}</>
                           )}
                         </button>
                       </div>
@@ -672,7 +674,7 @@ const AdminDashboard = () => {
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
                 <span style={{ fontSize: "1.5rem" }}>📧</span>
                 <h3 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#1a1a1a" }}>
-                  Contact Form Submissions
+                  {t('adminDashboard.messages.sectionTitle')}
                 </h3>
               </div>
 
@@ -689,9 +691,9 @@ const AdminDashboard = () => {
                 >
                   <div style={{ fontSize: "4rem", marginBottom: "20px" }}>📭</div>
                   <h4 style={{ margin: "0 0 8px 0", fontSize: "1.3rem", fontWeight: "600", color: "#374151" }}>
-                    No messages yet
+                    {t('adminDashboard.messages.noMessages')}
                   </h4>
-                  <p style={{ margin: 0, fontSize: "1rem" }}>No contact form submissions have been received.</p>
+                  <p style={{ margin: 0, fontSize: "1rem" }}>{t('adminDashboard.messages.noMessages')}</p>
                 </div>
               ) : (
                 <div style={{ display: "grid", gap: "20px" }}>
@@ -768,7 +770,7 @@ const AdminDashboard = () => {
                             <div
                               style={{ fontSize: "0.8rem", color: "#0369a1", fontWeight: "600", marginBottom: "4px" }}
                             >
-                              📋 Subject
+                              📋 {t('adminDashboard.messages.subject')}
                             </div>
                             <div style={{ fontSize: "1rem", color: "#1e40af", fontWeight: "500" }}>{msg.subject}</div>
                           </div>
@@ -785,7 +787,7 @@ const AdminDashboard = () => {
                             <div
                               style={{ fontSize: "0.8rem", color: "#374151", fontWeight: "600", marginBottom: "8px" }}
                             >
-                              💬 Message
+                              💬 {t('adminDashboard.messages.message')}
                             </div>
                             <p
                               style={{
@@ -828,7 +830,7 @@ const AdminDashboard = () => {
                             e.target.style.boxShadow = "0 4px 15px rgba(239, 68, 68, 0.3)"
                           }}
                         >
-                          🗑️ Delete
+                          🗑️ {t('adminDashboard.messages.delete')}
                         </button>
                       </div>
                     </div>

@@ -1,8 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const ChangeStudentCredentials = () => {
+  const { t } = useTranslation();
   const { id } = useParams()
   const navigate = useNavigate()
   const [currentPassword, setCurrentPassword] = useState("")
@@ -21,6 +24,7 @@ const ChangeStudentCredentials = () => {
     setSuccess("")
 
     const token = localStorage.getItem("token")
+    
 
     try {
       const response = await axios.post(
@@ -90,6 +94,7 @@ const ChangeStudentCredentials = () => {
           '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif',
       }}
     >
+      <LanguageSwitcher />
       {/* Background decoration */}
       <div
         style={{
@@ -146,7 +151,7 @@ const ChangeStudentCredentials = () => {
               backgroundClip: "text",
             }}
           >
-            Change Credentials
+            {t('studentCredentials.changecredentials')}
           </h2>
           <p
             style={{
@@ -155,7 +160,7 @@ const ChangeStudentCredentials = () => {
               fontSize: "1.1rem",
             }}
           >
-            Update your account username and password
+            {t('studentCredentials.changecredentialsDescription')}
           </p>
         </div>
 
@@ -206,7 +211,7 @@ const ChangeStudentCredentials = () => {
           <div style={{ marginBottom: "24px" }}>
             <label style={labelStyle}>
               <span style={{ marginRight: "8px" }}>🔒</span>
-              Current Password
+              {t('studentCredentials.currentPassword')}
               <span style={{ color: "#ef4444", marginLeft: "4px" }}>*</span>
             </label>
             <div style={{ position: "relative" }}>
@@ -221,7 +226,7 @@ const ChangeStudentCredentials = () => {
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 required
-                placeholder="Enter your current password"
+                placeholder={t('studentCredentials.currentPasswordPlaceholder')}
               />
               <button
                 type="button"
@@ -248,7 +253,7 @@ const ChangeStudentCredentials = () => {
           <div style={{ marginBottom: "24px" }}>
             <label style={labelStyle}>
               <span style={{ marginRight: "8px" }}>🔑</span>
-              New Password
+              {t('studentCredentials.newPassword')}
               <span style={{ color: "#ef4444", marginLeft: "4px" }}>*</span>
             </label>
             <div style={{ position: "relative" }}>
@@ -263,7 +268,7 @@ const ChangeStudentCredentials = () => {
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 required
-                placeholder="Enter your new password"
+                placeholder={t('studentCredentials.currentPasswordPlaceholder')}
               />
               <button
                 type="button"
@@ -297,12 +302,12 @@ const ChangeStudentCredentials = () => {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
                 <span>💡</span>
-                <strong>Password Requirements:</strong>
+                <strong>{t('requirements.requirements')}</strong>
               </div>
               <ul style={{ margin: "4px 0 0 20px", paddingLeft: "0" }}>
-                <li>At least 8 characters long</li>
-                <li>Include uppercase and lowercase letters</li>
-                <li>Include at least one number</li>
+                <li>{t('requirements.criteria.length')}</li>
+                <li>{t('requirements.criteria.upperlower')}</li>
+                <li>{t('requirements.criteria.number')}</li>
               </ul>
             </div>
           </div>
@@ -311,7 +316,7 @@ const ChangeStudentCredentials = () => {
           <div style={{ marginBottom: "32px" }}>
             <label style={labelStyle}>
               <span style={{ marginRight: "8px" }}>👤</span>
-              New Username
+              {t('studentCredentials.newUsername')}
               <span style={{ color: "#ef4444", marginLeft: "4px" }}>*</span>
             </label>
             <input
@@ -322,7 +327,7 @@ const ChangeStudentCredentials = () => {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               required
-              placeholder="Enter your new username"
+              placeholder={t('studentCredentials.newUsernamePlaceholder')}
             />
             <p
               style={{
@@ -335,7 +340,7 @@ const ChangeStudentCredentials = () => {
               }}
             >
               <span>ℹ️</span>
-              Username must be unique and contain only letters, numbers, and underscores
+              {t('requirements.username')}
             </p>
           </div>
 
@@ -390,10 +395,10 @@ const ChangeStudentCredentials = () => {
                       animation: "spin 1s linear infinite",
                     }}
                   ></div>
-                  Updating...
+                  {t('requests.updating')}
                 </>
               ) : (
-                <>✅ Update Credentials</>
+                <>✅ {t('requirements.updateCredentials')}</>
               )}
             </button>
 
@@ -437,7 +442,7 @@ const ChangeStudentCredentials = () => {
                 }
               }}
             >
-              ← Go Back to Dashboard
+              ← {t('requirements.goback')}
             </button>
           </div>
         </form>
@@ -458,11 +463,9 @@ const ChangeStudentCredentials = () => {
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
             <span style={{ fontSize: "1.2rem" }}>🔐</span>
             <div>
-              <strong>Security Notice:</strong>
+              <strong>{t('requirements.security')}</strong>
               <br />
-              After updating your credentials, you'll be redirected to the dashboard. Make sure to remember your new
-              username and password. For security reasons, we recommend using a strong, unique password that you don't
-              use elsewhere.
+              {t('requirements.securityDescription')}
             </div>
           </div>
         </div>

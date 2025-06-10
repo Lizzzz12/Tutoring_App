@@ -1,8 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const [userType, setUserType] = useState("Student")
   const [isLoading, setIsLoading] = useState(false)
   const [studentData, setStudentData] = useState({
@@ -56,7 +59,7 @@ const RegisterForm = () => {
       if (userType === "Student") {
         const response = await axios.post("http://localhost:5000/api/student_register", studentData)
         if (response.data) {
-          setMessage("Student registration successful!")
+          setMessage(t("register.successStudent") )
           setMessageType("success")
           setStudentData({ firstname: "", lastname: "", email: "", username: "", password: "" })
         }
@@ -64,7 +67,7 @@ const RegisterForm = () => {
         const response = await axios.post("http://localhost:5000/api/register_teachers", teacherData)
         if (response.data.success) {
           setMessage(
-            "Your application to register as teacher has been sent, our support will approve as soon as possible.",
+            t("register.successTeacher")   
           )
           setMessageType("success")
           setTeacherData({
@@ -89,7 +92,7 @@ const RegisterForm = () => {
       }
     } catch (error) {
       console.error(error)
-      setMessage("Registration failed. Please try again.")
+      setMessage(t("register.error") )
       setMessageType("error")
     } finally {
       setIsLoading(false)
@@ -200,13 +203,13 @@ const RegisterForm = () => {
   const renderStudentForm = () => (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
       <div>
-        {renderInput("First Name", "firstname", "text", studentData.firstname, true, "👤")}
-        {renderInput("Email", "email", "email", studentData.email, true, "✉️")}
-        {renderInput("Password", "password", "password", studentData.password, true, "🔒")}
+        {renderInput(t("register.firstName"), "firstname", "text", studentData.firstname, true, "👤")}
+        {renderInput(t("register.email") , "email", "email", studentData.email, true, "✉️")}
+        {renderInput(t("register.password") , "password", "password", studentData.password, true, "🔒")}
       </div>
       <div>
-        {renderInput("Last Name", "lastname", "text", studentData.lastname, true, "👤")}
-        {renderInput("Username", "username", "text", studentData.username, true, "🏷️")}
+        {renderInput(t("register.lastName"), "lastname", "text", studentData.lastname, true, "👤")}
+        {renderInput(t("register.username") , "username", "text", studentData.username, true, "🏷️")}
       </div>
     </div>
   )
@@ -214,31 +217,31 @@ const RegisterForm = () => {
   const renderTeacherForm = () => (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
       <div>
-        {renderInput("First Name", "firstname", "text", teacherData.firstname, true, "👤")}
-        {renderInput("Email", "email", "email", teacherData.email, true, "✉️")}
-        {renderInput("Address", "address", "text", teacherData.address, false, "🏠")}
-        {renderInput("Subject", "subject", "text", teacherData.subject, true, "📚")}
-        {renderInput("Image URL", "img_url", "text", teacherData.img_url, false, "🖼️")}
+        {renderInput(t("register.firstName"), "firstname", "text", teacherData.firstname, true, "👤")}
+        {renderInput(t("register.email") , "email", "email", teacherData.email, true, "✉️")}
+        {renderInput(t("register.address")  , "address", "text", teacherData.address, false, "🏠")}
+        {renderInput(t("register.subject") , "subject", "text", teacherData.subject, true, "📚")}
+        {renderInput(t("register.imageUrl")  , "img_url", "text", teacherData.img_url, false, "🖼️")}
         {renderSelect(
-          "Tutoring Location",
+          t("register.location") ,
           "tutoring_location",
           teacherData.tutoring_location,
           [
-            { value: "Online", label: "🌐 Online" },
-            { value: "In Person", label: "🏢 In Person" },
-            { value: "Both", label: "🔄 Both" },
+            { value: "Online", label: t("register.online")   },
+            { value: "In Person", label: t("register.inPerson")  },
+            { value: "Both", label: t("register.both")   },
           ],
           "📍",
         )}
-        {renderInput("Username", "username", "text", teacherData.username, true, "🏷️")}
+        {renderInput(t("register.username") , "username", "text", teacherData.username, true, "🏷️")}
       </div>
       <div>
-        {renderInput("Last Name", "lastname", "text", teacherData.lastname, true, "👤")}
-        {renderInput("Phone", "phone", "text", teacherData.phone, false, "📞")}
-        {renderTextarea("Description", "description", teacherData.description, "📝")}
-        {renderInput("Price per Hour ($)", "price", "number", teacherData.price, false, "💰")}
-        {renderInput("Availability", "availability", "text", teacherData.availability, false, "⏰")}
-        {renderInput("Password", "password", "password", teacherData.password, true, "🔒")}
+        {renderInput(t("register.lastName"), "lastname", "text", teacherData.lastname, true, "👤")}
+        {renderInput(t("register.phone")   , "phone", "text", teacherData.phone, false, "📞")}
+        {renderTextarea(t("register.description"), "description", teacherData.description, "📝")}
+        {renderInput(t("register.price"), "price", "number", teacherData.price, false, "💰")}
+        {renderInput(t("register.availability"), "availability", "text", teacherData.availability, false, "⏰")}
+        {renderInput(t("register.password") , "password", "password", teacherData.password, true, "🔒")}
       </div>
     </div>
   )
@@ -267,6 +270,7 @@ const RegisterForm = () => {
           zIndex: 1,
         }}
       ></div>
+      <LanguageSwitcher />
       <div
         style={{
           position: "absolute",
@@ -309,7 +313,7 @@ const RegisterForm = () => {
               backgroundClip: "text",
             }}
           >
-            Join TutorFind
+            {t("register.welcome")}
           </h2>
           <p
             style={{
@@ -318,7 +322,7 @@ const RegisterForm = () => {
               fontSize: "1.1rem",
             }}
           >
-            Create your account and start your learning journey
+            {t("register.subtext") }
           </p>
         </div>
 
@@ -334,7 +338,7 @@ const RegisterForm = () => {
         >
           <label style={labelStyle}>
             <span style={{ marginRight: "8px" }}>👥</span>
-            Select User Type
+            {t("register.selectUserType")}
           </label>
           <select
             value={userType}
@@ -347,8 +351,8 @@ const RegisterForm = () => {
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
           >
-            <option value="Student">🎓 Student - Learn from expert tutors</option>
-            <option value="Teacher">👨‍🏫 Teacher - Share your knowledge</option>
+            <option value="Student"> {t("register.studentOption") }</option>
+            <option value="Teacher">{t("register.teacherOption")}</option>
           </select>
         </div>
 
@@ -408,7 +412,7 @@ const RegisterForm = () => {
                   Creating Account...
                 </>
               ) : (
-                <>🚀 Register as {userType}</>
+                <>{t("register.submitStudent") } {userType}</>
               )}
             </button>
           </div>
@@ -467,7 +471,7 @@ const RegisterForm = () => {
               e.target.style.color = "#667eea"
             }}
           >
-            🔑 Already have an account?
+            {t("register.alreadyHaveAccount") }
           </Link>
           <Link
             to="/"
@@ -499,7 +503,7 @@ const RegisterForm = () => {
               e.target.style.background = "transparent"
             }}
           >
-            ← Go Back to Home
+             {t("register.goBack")}
           </Link>
         </div>
 
@@ -520,11 +524,10 @@ const RegisterForm = () => {
             <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
               <span style={{ fontSize: "1.2rem" }}>💡</span>
               <div>
-                <strong>Teacher Application Process:</strong>
+                <strong>{t("register.teacherNoteTitle") }</strong>
                 <br />
-                Your application will be reviewed by our team. We'll verify your credentials and contact you within 2-3
-                business days. Make sure to provide accurate information to speed up the approval process.
-              </div>
+               {t("register.teacherNoteText") }
+                </div>
             </div>
           </div>
         )}
