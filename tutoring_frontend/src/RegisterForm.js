@@ -5,7 +5,9 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
 const RegisterForm = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const [userType, setUserType] = useState("Student")
   const [isLoading, setIsLoading] = useState(false)
   const [studentData, setStudentData] = useState({
@@ -270,7 +272,37 @@ const RegisterForm = () => {
           zIndex: 1,
         }}
       ></div>
-      <LanguageSwitcher />
+      {/* <LanguageSwitcher /> */}
+      <div
+  style={{
+    position: "absolute",
+    top: "20px",
+    right: "20px",
+    zIndex: 3,
+    background: "#f3f4f6",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    padding: "6px 12px",
+  }}
+>
+  <select
+    onChange={(e) => i18n.changeLanguage(e.target.value)}
+    value={i18n.language}
+    style={{
+      background: "transparent",
+      border: "none",
+      outline: "none",
+      fontWeight: "600",
+      fontSize: "0.9rem",
+      color: "#374151",
+      cursor: "pointer",
+    }}
+  >
+    <option value="en">EN</option>
+    <option value="ka">KA</option>
+  </select>
+</div>
+
       <div
         style={{
           position: "absolute",

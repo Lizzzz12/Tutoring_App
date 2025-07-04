@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "../components/LanguageSwitcher"
 
 const EditTeacherProfile = () => {
+  const { t, i18n } = useTranslation()
   const [teacherData, setTeacherData] = useState({
     firstname: "",
     lastname: "",
@@ -38,10 +41,10 @@ const EditTeacherProfile = () => {
         setTeacherData(response.data.data)
       })
       .catch((err) => {
-        setError("Failed to fetch teacher data.")
+        setError(t('editTeacher.error.fetch'))
         console.error(err)
       })
-  }, [id, token])
+  }, [id, token, t])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -50,12 +53,12 @@ const EditTeacherProfile = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        setSuccess("Profile updated successfully!")
+        setSuccess(t('editTeacher.success.update'))
         setError("")
         navigate(`/teacher_dashboard`)
       })
       .catch((err) => {
-        setError("Failed to update profile.")
+        setError(t('editTeacher.error.update'))
         console.error(err)
       })
   }
@@ -71,17 +74,17 @@ const EditTeacherProfile = () => {
       })
 
       if (res.data.success) {
-        setCredSuccess("Credentials updated successfully!")
+        setCredSuccess(t('editTeacher.success.credential'))
         setCredentials({
           currentPassword: "",
           newPassword: "",
           newUsername: "",
         })
       } else {
-        setCredError(res.data.message || "Failed to update credentials.")
+        setCredError(res.data.message || t('editTeacher.error.credential'))
       }
     } catch (err) {
-      setCredError("Error updating credentials. Please try again.")
+      setCredError(t('editTeacher.error.credential'))
     }
   }
 
@@ -131,7 +134,8 @@ const EditTeacherProfile = () => {
             >
               ✏️
             </span>
-            Edit Teacher Profile
+            {t('editTeacher.title')}
+            <LanguageSwitcher/>
           </h1>
           <p
             style={{
@@ -140,7 +144,7 @@ const EditTeacherProfile = () => {
               margin: "0",
             }}
           >
-            Update your professional information and credentials
+            {t('editTeacher.subtitle')}
           </p>
         </div>
 
@@ -158,7 +162,7 @@ const EditTeacherProfile = () => {
               boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
-            <strong>❌ Error:</strong> {error}
+            <strong>❌ {t('editTeacher.error.title')}:</strong> {error}
           </div>
         )}
 
@@ -175,7 +179,7 @@ const EditTeacherProfile = () => {
               boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
-            <strong>✅ Success:</strong> {success}
+            <strong>✅ {t('editTeacher.success.title')}:</strong> {success}
           </div>
         )}
 
@@ -212,7 +216,7 @@ const EditTeacherProfile = () => {
                 gap: "10px",
               }}
             >
-              👤 Profile Information
+              {t('editTeacher.profile.title')}
             </h2>
             <p
               style={{
@@ -221,7 +225,7 @@ const EditTeacherProfile = () => {
                 fontSize: "0.95rem",
               }}
             >
-              Update your teaching profile details
+              {t('editTeacher.profile.description')}
             </p>
           </div>
 
@@ -245,7 +249,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  👤 First Name
+                  👤 {t('editTeacher.profile.fields.firstName')}
                 </label>
                 <input
                   type="text"
@@ -271,7 +275,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your first name"
+                  placeholder={t('editTeacher.profile.placeholders.firstName')}
                 />
               </div>
 
@@ -286,7 +290,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  👤 Last Name
+                  👤 {t('editTeacher.profile.fields.lastName')}
                 </label>
                 <input
                   type="text"
@@ -312,7 +316,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your last name"
+                  placeholder={t('editTeacher.profile.placeholders.lastName')}
                 />
               </div>
 
@@ -327,7 +331,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  📧 Email Address
+                  📧 {t('editTeacher.profile.fields.email')}
                 </label>
                 <input
                   type="email"
@@ -353,7 +357,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your email address"
+                  placeholder={t('editTeacher.profile.placeholders.email')}
                 />
               </div>
 
@@ -368,7 +372,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  📚 Subject
+                  📚 {t('editTeacher.profile.fields.subject')}
                 </label>
                 <input
                   type="text"
@@ -394,7 +398,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your teaching subject"
+                  placeholder={t('editTeacher.profile.placeholders.subject')}
                 />
               </div>
 
@@ -409,7 +413,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  📞 Phone Number
+                  📞 {t('editTeacher.profile.fields.phone')}
                 </label>
                 <input
                   type="text"
@@ -435,7 +439,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your phone number"
+                  placeholder={t('editTeacher.profile.placeholders.phone')}
                 />
               </div>
 
@@ -450,7 +454,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  🏠 Address
+                  🏠 {t('editTeacher.profile.fields.address')}
                 </label>
                 <input
                   type="text"
@@ -476,7 +480,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter your address"
+                  placeholder={t('editTeacher.profile.placeholders.address')}
                 />
               </div>
 
@@ -491,7 +495,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  🕒 Availability
+                  🕒 {t('editTeacher.profile.fields.availability')}
                 </label>
                 <input
                   type="text"
@@ -522,7 +526,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="e.g., Mon-Fri 9AM-5PM"
+                  placeholder={t('editTeacher.profile.placeholders.availability')}
                 />
               </div>
 
@@ -537,7 +541,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  📍 Tutoring Location
+                  📍 {t('editTeacher.profile.fields.location')}
                 </label>
                 <input
                   type="text"
@@ -568,7 +572,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="e.g., Online, Library, Student's home"
+                  placeholder={t('editTeacher.profile.placeholders.location')}
                 />
               </div>
             </div>
@@ -584,7 +588,7 @@ const EditTeacherProfile = () => {
                   fontSize: "0.95rem",
                 }}
               >
-                📝 Description
+                📝 {t('editTeacher.profile.fields.description')}
               </label>
               <textarea
                 value={teacherData.description}
@@ -612,7 +616,7 @@ const EditTeacherProfile = () => {
                   e.target.style.background = "#f8f9fa"
                   e.target.style.boxShadow = "none"
                 }}
-                placeholder="Describe your teaching experience, qualifications, and approach..."
+                placeholder={t('editTeacher.profile.placeholders.description')}
               />
             </div>
 
@@ -641,7 +645,7 @@ const EditTeacherProfile = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(79, 172, 254, 0.4)"
               }}
             >
-              💾 Save Profile Changes
+              {t('editTeacher.profile.save')}
             </button>
           </form>
         </div>
@@ -678,7 +682,7 @@ const EditTeacherProfile = () => {
                 gap: "10px",
               }}
             >
-              🔐 Security Settings
+              {t('editTeacher.credentials.title')}
             </h2>
             <p
               style={{
@@ -687,7 +691,7 @@ const EditTeacherProfile = () => {
                 fontSize: "0.95rem",
               }}
             >
-              Update your login credentials for enhanced security
+              {t('editTeacher.credentials.description')}
             </p>
           </div>
 
@@ -703,7 +707,7 @@ const EditTeacherProfile = () => {
                 border: "1px solid rgba(255,255,255,0.2)",
               }}
             >
-              <strong>❌ Error:</strong> {credError}
+              <strong>❌ {t('editTeacher.error.title')}:</strong> {credError}
             </div>
           )}
 
@@ -718,7 +722,7 @@ const EditTeacherProfile = () => {
                 border: "1px solid rgba(255,255,255,0.2)",
               }}
             >
-              <strong>✅ Success:</strong> {credSuccess}
+              <strong>✅ {t('editTeacher.success.title')}:</strong> {credSuccess}
             </div>
           )}
 
@@ -742,7 +746,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  👤 New Username
+                  👤 {t('editTeacher.credentials.fields.username')}
                 </label>
                 <input
                   type="text"
@@ -774,7 +778,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter new username"
+                  placeholder={t('editTeacher.credentials.placeholders.username')}
                 />
               </div>
 
@@ -789,7 +793,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  🔒 Current Password
+                  🔒 {t('editTeacher.credentials.fields.currentPassword')}
                 </label>
                 <input
                   type="password"
@@ -821,7 +825,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter current password"
+                  placeholder={t('editTeacher.credentials.placeholders.currentPassword')}
                 />
               </div>
 
@@ -836,7 +840,7 @@ const EditTeacherProfile = () => {
                     fontSize: "0.95rem",
                   }}
                 >
-                  🔑 New Password
+                  🔑 {t('editTeacher.credentials.fields.newPassword')}
                 </label>
                 <input
                   type="password"
@@ -868,7 +872,7 @@ const EditTeacherProfile = () => {
                     e.target.style.background = "#f8f9fa"
                     e.target.style.boxShadow = "none"
                   }}
-                  placeholder="Enter new password"
+                  placeholder={t('editTeacher.credentials.placeholders.newPassword')}
                 />
               </div>
             </div>
@@ -898,7 +902,7 @@ const EditTeacherProfile = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(255, 154, 158, 0.4)"
               }}
             >
-              🔐 Update Credentials
+              {t('editTeacher.credentials.update')}
             </button>
           </form>
         </div>
@@ -928,7 +932,7 @@ const EditTeacherProfile = () => {
               e.target.style.transform = "translateY(0)"
             }}
           >
-            ← Back to Dashboard
+            {t('editTeacher.back')}
           </button>
         </div>
       </div>

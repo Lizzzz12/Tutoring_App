@@ -4,7 +4,9 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
 const AdminDashboard = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const [teacherRequests, setTeacherRequests] = useState([])
   const [contactMessages, setContactMessages] = useState([])
   const [loading, setLoading] = useState(true)
@@ -211,25 +213,60 @@ const AdminDashboard = () => {
       
 
 <div>
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
+            <div
+  style={{
+    padding: "10px 16px",
+    background: "linear-gradient(135deg, #f3f4f6, #e5e7eb)",
+    color: "#374151",
+    border: "none",
+    borderRadius: "12px",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    display: "inline-flex",
+    alignItems: "center",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+  }}
+>
+  <select
+    onChange={(e) => i18n.changeLanguage(e.target.value)}
+    value={i18n.language}
+    style={{
+      padding: "8px 12px",
+      borderRadius: "12px",
+      border: "1px solid #d1d5db",
+      backgroundColor: "#f3f4f6",
+      fontWeight: "600",
+      fontSize: "0.9rem",
+      color: "#374151",
+      cursor: "pointer",
+      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.05)",
+      transition: "box-shadow 0.2s ease",
+    }}
+  >
+    <option value="en">EN</option>
+    <option value="ka">KA</option>
+  </select>
+</div>
+
           <button
             onClick={handleLogout}
             
             style={{
-              padding: "10px 20px",
-              background: "linear-gradient(135deg, #dc2626, #991b1b)",
-              color: "white",
-              border: "none",
-              borderRadius: "12px",
-              fontSize: "0.9rem",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              boxShadow: "0 4px 15px rgba(220, 38, 38, 0.3)",
-            }}
+                padding: "10px 20px",
+      background: "linear-gradient(135deg, #dc2626, #991b1b)",
+      color: "white",
+      border: "none",
+      borderRadius: "12px",
+      fontSize: "0.9rem",
+      fontWeight: "600",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      boxShadow: "0 4px 15px rgba(220, 38, 38, 0.3)",
+     }}
             onMouseEnter={(e) => {
               e.target.style.transform = "translateY(-2px)"
               e.target.style.boxShadow = "0 8px 25px rgba(220, 38, 38, 0.4)"

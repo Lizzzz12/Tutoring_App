@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 const StudentDashboard = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [announcements, setAnnouncements] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true)
@@ -189,12 +192,12 @@ const StudentDashboard = () => {
                   backgroundClip: "text",
                 }}
               >
-                Welcome back, {username}!
+               {t('studentDashboard.welcome', { username })}
               </h1>
             </div>
             <div style={{ color: "#64748b", fontSize: "0.9rem" }}>
               <span style={{ marginRight: "8px" }}>🆔</span>
-              Student ID: {localStorage.getItem("studentId")}
+              {t('studentDashboard.studentId')} {localStorage.getItem("studentId")}
             </div>
           </div>
 
@@ -211,7 +214,7 @@ const StudentDashboard = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(6, 182, 212, 0.3)"
                 }}
               >
-                ⭐ Favorites
+                ⭐ {t('studentDashboard.favorites')}
               </button>
             </Link>
             <button
@@ -226,7 +229,7 @@ const StudentDashboard = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(245, 158, 11, 0.3)"
               }}
             >
-              ⚙️ Settings
+              ⚙️ {t('studentDashboard.settings')}
             </button>
             <button
               style={dangerButtonStyle}
@@ -240,8 +243,9 @@ const StudentDashboard = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(239, 68, 68, 0.3)"
               }}
             >
-              🚪 Logout
+              🚪 {t('studentDashboard.logout')}
             </button>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
@@ -270,7 +274,7 @@ const StudentDashboard = () => {
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>
               {filteredAnnouncements.length}
             </div>
-            <div style={{ opacity: 0.9 }}>Available Tutors</div>
+            <div style={{ opacity: 0.9 }}>{t('studentDashboard.availableTutors')}</div>
           </div>
           <div
             style={{
@@ -283,7 +287,7 @@ const StudentDashboard = () => {
           >
             <div style={{ fontSize: "2rem", marginBottom: "8px" }}>⭐</div>
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>{favorites.length}</div>
-            <div style={{ opacity: 0.9 }}>Saved Favorites</div>
+            <div style={{ opacity: 0.9 }}>{t('studentDashboard.savedFavorites')}</div>
           </div>
           <div
             style={{
@@ -298,7 +302,7 @@ const StudentDashboard = () => {
             <div style={{ fontSize: "2rem", fontWeight: "700", marginBottom: "4px" }}>
               {new Set(announcements.map((a) => a.subject)).size}
             </div>
-            <div style={{ opacity: 0.9 }}>Subjects Available</div>
+            <div style={{ opacity: 0.9 }}>{t('studentDashboard.subjectsAvailable')}</div>
           </div>
         </div>
 
@@ -317,7 +321,7 @@ const StudentDashboard = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
             <span style={{ fontSize: "1.5rem" }}>🔍</span>
             <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#1a1a1a" }}>
-              Find Your Perfect Lesson
+              {t('studentDashboard.findLesson')}
             </h2>
           </div>
           <input
@@ -333,7 +337,7 @@ const StudentDashboard = () => {
               fontFamily: "inherit",
               background: "white",
             }}
-            placeholder="🔍 Search by teacher name or subject..."
+            placeholder= {t('studentDashboard.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={(e) => {
@@ -361,7 +365,7 @@ const StudentDashboard = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
             <span style={{ fontSize: "1.5rem" }}>📢</span>
             <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: "600", color: "#1a1a1a" }}>
-              Available Tutoring Sessions
+              {t('studentDashboard.tutoringSessions')}
             </h2>
           </div>
 
@@ -378,7 +382,7 @@ const StudentDashboard = () => {
                   margin: "0 auto 16px",
                 }}
               ></div>
-              <p style={{ color: "#64748b", margin: 0 }}>Loading announcements...</p>
+              <p style={{ color: "#64748b", margin: 0 }}>{t('studentDashboard.loading')}</p>
             </div>
           ) : filteredAnnouncements.length > 0 ? (
             <div style={{ display: "grid", gap: "20px" }}>
@@ -438,7 +442,7 @@ const StudentDashboard = () => {
                             e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
                           }}
                         >
-                          📋 View Details
+                          📋 {t('studentDashboard.viewDetails')}
                         </button>
                       </Link>
                       {!isFavorite(announcement.id) ? (
@@ -454,11 +458,11 @@ const StudentDashboard = () => {
                             e.target.style.boxShadow = "0 4px 15px rgba(16, 185, 129, 0.3)"
                           }}
                         >
-                          ⭐ Save
+                          ⭐ {t('studentDashboard.save')}
                         </button>
                       ) : (
                         <button style={disabledButtonStyle} disabled>
-                          ✅ Saved
+                          ✅ {t('studentDashboard.saved')}
                         </button>
                       )}
                     </div>
@@ -475,7 +479,7 @@ const StudentDashboard = () => {
               }}
             >
               <div style={{ fontSize: "4rem", marginBottom: "16px" }}>🔍</div>
-              <h3 style={{ margin: "0 0 8px 0", fontSize: "1.2rem", fontWeight: "600" }}>No tutors found</h3>
+              <h3 style={{ margin: "0 0 8px 0", fontSize: "1.2rem", fontWeight: "600" }}>{t('studentDashboard.noTutorsTitle')}</h3>
               <p style={{ margin: 0 }}>
                 {searchQuery
                   ? `No tutors match your search for "${searchQuery}"`

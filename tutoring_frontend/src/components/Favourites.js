@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const Favorites = () => {
+  const { t } = useTranslation();
   const [favorites, setFavorites] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [removingId, setRemovingId] = useState(null)
@@ -155,9 +158,9 @@ const Favorites = () => {
                     backgroundClip: "text",
                   }}
                 >
-                  Your Favorites
+                  {t('favorites.title')}
                 </h1>
-                <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>Manage your saved tutoring sessions</p>
+                <p style={{ margin: 0, color: "#64748b", fontSize: "1rem" }}>{t('favorites.subtitle')}</p>
               </div>
             </div>
           </div>
@@ -176,8 +179,9 @@ const Favorites = () => {
               e.target.style.transform = "translateY(0)"
             }}
           >
-            ← Back to Dashboard
+             {t('favorites.backToDashboard')}
           </button>
+          <LanguageSwitcher />
         </div>
       </div>
 
@@ -255,7 +259,7 @@ const Favorites = () => {
                   margin: "0 auto 20px",
                 }}
               ></div>
-              <p style={{ color: "#64748b", margin: 0, fontSize: "1.1rem" }}>Loading your favorites...</p>
+              <p style={{ color: "#64748b", margin: 0, fontSize: "1.1rem" }}>{t('favorites.loading')}</p>
             </div>
           ) : favorites.length === 0 ? (
             <div
@@ -267,11 +271,10 @@ const Favorites = () => {
             >
               <div style={{ fontSize: "5rem", marginBottom: "24px" }}>💫</div>
               <h3 style={{ margin: "0 0 16px 0", fontSize: "1.5rem", fontWeight: "600", color: "#1a1a1a" }}>
-                No favorites yet
+               {t('favorites.noFavorites.title')}
               </h3>
               <p style={{ margin: "0 0 32px 0", fontSize: "1.1rem", maxWidth: "400px", margin: "0 auto 32px" }}>
-                Explore our amazing tutors and save your favorites for quick access. Start building your personalized
-                learning network!
+                {t('favorites.noFavorites.description')}
               </p>
               <button
                 style={primaryButtonStyle}
@@ -285,7 +288,7 @@ const Favorites = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
                 }}
               >
-                🔍 Explore Tutors
+                {t('favorites.noFavorites.button')}
               </button>
             </div>
           ) : (
@@ -353,7 +356,7 @@ const Favorites = () => {
                             </h3>
                             <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
                               <span style={{ fontSize: "0.9rem" }}>⭐</span>
-                              <span style={{ color: "#64748b", fontSize: "0.9rem" }}>Saved to favorites</span>
+                              <span style={{ color: "#64748b", fontSize: "0.9rem" }}>{t('favorites.saved')}</span>
                             </div>
                           </div>
                         </div>
@@ -361,7 +364,7 @@ const Favorites = () => {
                         {/* Subject */}
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
                           <span style={{ fontSize: "1.1rem" }}>📚</span>
-                          <span style={{ fontWeight: "600", color: "#374151" }}>Subject:</span>
+                          <span style={{ fontWeight: "600", color: "#374151" }}>{t('favorites.subject')}:</span>
                           <span
                             style={{
                               background: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
@@ -379,7 +382,7 @@ const Favorites = () => {
                         {/* Price */}
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
                           <span style={{ fontSize: "1.1rem" }}>💰</span>
-                          <span style={{ fontWeight: "600", color: "#374151" }}>Price:</span>
+                          <span style={{ fontWeight: "600", color: "#374151" }}>{t('favorites.price')}:</span>
                           <span
                             style={{
                               fontSize: "1.2rem",
@@ -409,7 +412,7 @@ const Favorites = () => {
                             e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
                           }}
                         >
-                          📋 View Details
+                        {t('favorites.viewDetails')}
                         </button>
                         <button
                           style={{
@@ -444,10 +447,10 @@ const Favorites = () => {
                                   animation: "spin 1s linear infinite",
                                 }}
                               ></div>
-                              Removing...
+                             {t('favorites.removing')}
                             </>
                           ) : (
-                            <>🗑️ Remove</>
+                            <>{t('favorites.remove')}</>
                           )}
                         </button>
                       </div>
@@ -482,7 +485,7 @@ const Favorites = () => {
             >
               <span style={{ fontSize: "1.5rem" }}>💡</span>
               <h3 style={{ margin: 0, fontSize: "1.2rem", fontWeight: "600", color: "#1a1a1a" }}>
-                Ready to start learning?
+               {t('favorites.readyTitle')}
               </h3>
             </div>
             <p style={{ margin: "0 0 20px 0", color: "#64748b" }}>
@@ -501,7 +504,7 @@ const Favorites = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
               }}
             >
-              🚀 Explore More Tutors
+              {t('favorites.exploreMore')}
             </button>
           </div>
         )}

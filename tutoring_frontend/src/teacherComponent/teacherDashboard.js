@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "../components/LanguageSwitcher"
 
 const TeacherDashboard = () => {
+  const { t, i18n } = useTranslation()
   const [teacher, setTeacher] = useState(null)
   const [announcements, setAnnouncements] = useState([])
   const [reviews, setReviews] = useState([])
@@ -18,7 +21,7 @@ const TeacherDashboard = () => {
 
   useEffect(() => {
     if (!teacherId || !token) {
-      setError("You must be logged in.")
+      setError(t('teacherDashboard.error.notLoggedIn'))
       navigate("/teacher_login")
       return
     }
@@ -36,7 +39,7 @@ const TeacherDashboard = () => {
       .get(`http://localhost:5000/api/teachers/${teacherId}`)
       .then((response) => setTeacher(response.data.data))
       .catch((err) => {
-        setError("Failed to load teacher profile.")
+        setError(t('teacherDashboard.error.loadProfile'))
         console.error(err)
       })
 
@@ -44,14 +47,14 @@ const TeacherDashboard = () => {
       .get(`http://localhost:5000/api/teacher/${teacherId}`)
       .then((response) => setAnnouncements(response.data.data || []))
       .catch((err) => {
-        setError("Failed to load announcements.")
+        setError(t('teacherDashboard.error.loadAnnouncements'))
         console.error(err)
       })
 
     return () => {
       window.onpopstate = null
     }
-  }, [teacherId, token, navigate])
+  }, [teacherId, token, navigate, t])
 
   const fetchReviews = async (announcementId) => {
     if (selectedAnnouncementId === announcementId) {
@@ -70,11 +73,11 @@ const TeacherDashboard = () => {
       if (Array.isArray(data) && data.length > 0) {
         setReviews(data)
       } else {
-        setReviewError("No reviews found for this announcement.")
+        setReviewError(t('teacherDashboard.error.noReviews'))
       }
     } catch (error) {
       console.error("Failed to load reviews:", error)
-      setReviewError("Failed to fetch reviews.")
+      setReviewError(t('teacherDashboard.error.loadReviews'))
     }
   }
 
@@ -87,7 +90,7 @@ const TeacherDashboard = () => {
     e.preventDefault()
 
     if (!newAnnouncement.subject || !newAnnouncement.content || !newAnnouncement.price) {
-      setError("All fields are required.")
+      setError(t('teacherDashboard.error.allFieldsRequired'))
       return
     }
 
@@ -111,7 +114,7 @@ const TeacherDashboard = () => {
       })
       .catch((err) => {
         console.error("Error creating announcement:", err)
-        setError("Failed to create announcement.")
+        setError(t('teacherDashboard.error.createAnnouncement'))
       })
   }
 
@@ -119,7 +122,7 @@ const TeacherDashboard = () => {
     e.preventDefault()
 
     if (!updateAnnouncement.subject || !updateAnnouncement.content || !updateAnnouncement.price) {
-      setError("All fields are required.")
+      setError(t('teacherDashboard.error.allFieldsRequired'))
       return
     }
 
@@ -143,12 +146,12 @@ const TeacherDashboard = () => {
       })
       .catch((err) => {
         console.error("Error updating announcement:", err)
-        setError("Failed to update announcement.")
+        setError(t('teacherDashboard.error.updateAnnouncement'))
       })
   }
 
   const handleDeleteAnnouncement = (id) => {
-    if (!window.confirm("Delete this announcement?")) return
+    if (!window.confirm(t('teacherDashboard.announcements.list.actions.deleteConfirm'))) return
 
     axios
       .delete(`http://localhost:5000/api/delete_announcements/${id}`, {
@@ -163,7 +166,7 @@ const TeacherDashboard = () => {
       })
       .catch((err) => {
         console.error("Error deleting announcement:", err)
-        setError("Failed to delete announcement.")
+        setError(t('teacherDashboard.error.deleteAnnouncement'))
       })
   }
 
@@ -223,7 +226,8 @@ const TeacherDashboard = () => {
             >
               📚
             </span>
-            Teacher Dashboard
+            {t('teacherDashboard.title')}
+            <LanguageSwitcher />
           </h1>
           <p
             style={{
@@ -232,7 +236,7 @@ const TeacherDashboard = () => {
               margin: "0.5rem 0 0 0",
             }}
           >
-            Manage your profile, announcements, and student interactions
+            {t('teacherDashboard.subtitle')}
           </p>
         </div>
 
@@ -248,7 +252,7 @@ const TeacherDashboard = () => {
               border: "1px solid rgba(255,255,255,0.2)",
             }}
           >
-            <strong>⚠️ Error:</strong> {error}
+            <strong>⚠️ {t('teacherDashboard.error.title')}:</strong> {error}
           </div>
         )}
 
@@ -305,7 +309,7 @@ const TeacherDashboard = () => {
                     fontWeight: "600",
                   }}
                 >
-                  Welcome back, {teacher.firstname}! 👋
+                  {t('teacherDashboard.profile.welcome', { name: teacher.firstname })}
                 </h2>
                 <p
                   style={{
@@ -314,7 +318,7 @@ const TeacherDashboard = () => {
                     fontSize: "1.1rem",
                   }}
                 >
-                  Ready to inspire and educate today?
+                  {t('teacherDashboard.profile.ready')}
                 </p>
               </div>
             </div>
@@ -336,19 +340,21 @@ const TeacherDashboard = () => {
                   color: "white",
                 }}
               >
-                <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.2rem", fontWeight: "600" }}>📋 Personal Information</h4>
+                <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.2rem", fontWeight: "600" }}>
+                  {t('teacherDashboard.profile.personalInfo')}
+                </h4>
                 <div style={{ lineHeight: "1.8" }}>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Name:</strong> {teacher.firstname} {teacher.lastname}
+                    <strong>{t('teacherDashboard.profile.name')}:</strong> {teacher.firstname} {teacher.lastname}
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Email:</strong> {teacher.email}
+                    <strong>{t('teacherDashboard.profile.email')}:</strong> {teacher.email}
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Phone:</strong> {teacher.phone || "Not provided"}
+                    <strong>{t('teacherDashboard.profile.phone')}:</strong> {teacher.phone || t('teacherDashboard.profile.notProvided')}
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Address:</strong> {teacher.address || "Not provided"}
+                    <strong>{t('teacherDashboard.profile.address')}:</strong> {teacher.address || t('teacherDashboard.profile.notProvided')}
                   </p>
                 </div>
               </div>
@@ -361,10 +367,12 @@ const TeacherDashboard = () => {
                   color: "#333",
                 }}
               >
-                <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.2rem", fontWeight: "600" }}>🎓 Teaching Details</h4>
+                <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.2rem", fontWeight: "600" }}>
+                  {t('teacherDashboard.profile.teachingDetails')}
+                </h4>
                 <div style={{ lineHeight: "1.8" }}>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Subject:</strong>
+                    <strong>{t('teacherDashboard.profile.subject')}:</strong>
                     <span
                       style={{
                         background: "rgba(255,255,255,0.8)",
@@ -379,16 +387,16 @@ const TeacherDashboard = () => {
                     </span>
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Rating:</strong>
+                    <strong>{t('teacherDashboard.profile.rating')}:</strong>
                     <span style={{ marginLeft: "0.5rem", fontSize: "1.1rem" }}>
-                      ⭐ {teacher.teacher_rating || "No rating yet"}
+                      ⭐ {teacher.teacher_rating || t('teacherDashboard.profile.noRating')}
                     </span>
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Location:</strong> {teacher.tutoring_location || "Not specified"}
+                    <strong>{t('teacherDashboard.profile.location')}:</strong> {teacher.tutoring_location || t('teacherDashboard.profile.notSpecified')}
                   </p>
                   <p style={{ margin: "0.5rem 0" }}>
-                    <strong>Availability:</strong> {teacher.availability || "Not specified"}
+                    <strong>{t('teacherDashboard.profile.availability')}:</strong> {teacher.availability || t('teacherDashboard.profile.notSpecified')}
                   </p>
                 </div>
               </div>
@@ -405,7 +413,7 @@ const TeacherDashboard = () => {
                 }}
               >
                 <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.2rem", fontWeight: "600", color: "#333" }}>
-                  📝 About Me
+                  {t('teacherDashboard.profile.aboutMe')}
                 </h4>
                 <p style={{ margin: "0", lineHeight: "1.6", color: "#555" }}>{teacher.description}</p>
               </div>
@@ -445,7 +453,7 @@ const TeacherDashboard = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(255, 107, 107, 0.3)"
                 }}
               >
-                🚪 Logout
+                {t('teacherDashboard.buttons.logout')}
               </button>
               <button
                 onClick={() => navigate(`/edit_teacher/${teacher.id}`)}
@@ -473,7 +481,7 @@ const TeacherDashboard = () => {
                   e.target.style.boxShadow = "0 4px 15px rgba(79, 172, 254, 0.3)"
                 }}
               >
-                ✏️ Edit Profile
+                {t('teacherDashboard.buttons.editProfile')}
               </button>
             </div>
           </div>
@@ -510,9 +518,11 @@ const TeacherDashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              ➕ Create New Announcement
+              {t('teacherDashboard.announcements.create.title')}
             </h3>
-            <p style={{ margin: "0.5rem 0 0 0", opacity: "0.9" }}>Share your tutoring services with students</p>
+            <p style={{ margin: "0.5rem 0 0 0", opacity: "0.9" }}>
+              {t('teacherDashboard.announcements.create.subtitle')}
+            </p>
           </div>
 
           <form onSubmit={handleCreateAnnouncement}>
@@ -533,11 +543,11 @@ const TeacherDashboard = () => {
                     color: "#333",
                   }}
                 >
-                  📚 Subject
+                  {t('teacherDashboard.announcements.create.subject')}
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Advanced Mathematics"
+                  placeholder={t('teacherDashboard.announcements.create.subjectPlaceholder')}
                   value={newAnnouncement.subject}
                   onChange={(e) => setNewAnnouncement({ ...newAnnouncement, subject: e.target.value })}
                   style={{
@@ -570,11 +580,11 @@ const TeacherDashboard = () => {
                     color: "#333",
                   }}
                 >
-                  💰 Price per Hour
+                  {t('teacherDashboard.announcements.create.price')}
                 </label>
                 <input
                   type="number"
-                  placeholder="25"
+                  placeholder={t('teacherDashboard.announcements.create.pricePlaceholder')}
                   value={newAnnouncement.price}
                   onChange={(e) => setNewAnnouncement({ ...newAnnouncement, price: e.target.value })}
                   style={{
@@ -608,10 +618,10 @@ const TeacherDashboard = () => {
                   color: "#333",
                 }}
               >
-                📝 Description
+                {t('teacherDashboard.announcements.create.description')}
               </label>
               <textarea
-                placeholder="Describe your tutoring approach, experience, and what students can expect..."
+                placeholder={t('teacherDashboard.announcements.create.descriptionPlaceholder')}
                 value={newAnnouncement.content}
                 onChange={(e) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
                 rows="4"
@@ -662,7 +672,7 @@ const TeacherDashboard = () => {
                 e.target.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)"
               }}
             >
-              ✨ Create Announcement
+              {t('teacherDashboard.announcements.create.submit')}
             </button>
           </form>
         </div>
@@ -697,9 +707,11 @@ const TeacherDashboard = () => {
                 gap: "0.5rem",
               }}
             >
-              📢 My Announcements ({announcements.length})
+              {t('teacherDashboard.announcements.list.title', { count: announcements.length })}
             </h3>
-            <p style={{ margin: "0.5rem 0 0 0", opacity: "0.8" }}>Manage your active tutoring announcements</p>
+            <p style={{ margin: "0.5rem 0 0 0", opacity: "0.8" }}>
+              {t('teacherDashboard.announcements.list.subtitle')}
+            </p>
           </div>
 
           {announcements.length === 0 ? (
@@ -711,8 +723,12 @@ const TeacherDashboard = () => {
               }}
             >
               <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>📝</div>
-              <h4 style={{ margin: "0 0 0.5rem 0", color: "#333" }}>No announcements yet</h4>
-              <p style={{ margin: "0" }}>Create your first announcement to start connecting with students!</p>
+              <h4 style={{ margin: "0 0 0.5rem 0", color: "#333" }}>
+                {t('teacherDashboard.announcements.list.empty.title')}
+              </h4>
+              <p style={{ margin: "0" }}>
+                {t('teacherDashboard.announcements.list.empty.message')}
+              </p>
             </div>
           ) : (
             <div
@@ -772,7 +788,7 @@ const TeacherDashboard = () => {
                         fontWeight: "600",
                       }}
                     >
-                      💰 ${announcement.price}/hour
+                      {t('teacherDashboard.announcements.list.price', { price: announcement.price })}
                     </div>
                   </div>
 
@@ -814,7 +830,9 @@ const TeacherDashboard = () => {
                         flex: "1",
                       }}
                     >
-                      {selectedAnnouncementId === announcement.id ? "❌ Close Reviews" : "⭐ View Reviews"}
+                      {selectedAnnouncementId === announcement.id
+                        ? t('teacherDashboard.announcements.list.reviews.close')
+                        : t('teacherDashboard.announcements.list.reviews.view')}
                     </button>
                     <button
                       onClick={() => handleEditAnnouncement(announcement)}
@@ -831,7 +849,7 @@ const TeacherDashboard = () => {
                         flex: "1",
                       }}
                     >
-                      ✏️ Edit
+                      {t('teacherDashboard.announcements.list.actions.edit')}
                     </button>
                     <button
                       onClick={() => handleDeleteAnnouncement(announcement.id)}
@@ -848,7 +866,7 @@ const TeacherDashboard = () => {
                         flex: "1",
                       }}
                     >
-                      🗑️ Delete
+                      {t('teacherDashboard.announcements.list.actions.delete')}
                     </button>
                   </div>
 
@@ -873,7 +891,7 @@ const TeacherDashboard = () => {
                           gap: "0.5rem",
                         }}
                       >
-                        ⭐ Student Reviews
+                        {t('teacherDashboard.announcements.list.reviews.title')}
                       </h5>
                       {reviewError ? (
                         <div
@@ -906,7 +924,7 @@ const TeacherDashboard = () => {
                                   marginBottom: "0.5rem",
                                 }}
                               >
-                                👤 {review.student_name}
+                                {t('teacherDashboard.announcements.list.reviews.student', { name: review.student_name })}
                               </div>
                               <div
                                 style={{
@@ -927,7 +945,7 @@ const TeacherDashboard = () => {
                             fontStyle: "italic",
                           }}
                         >
-                          Loading reviews...
+                          {t('teacherDashboard.announcements.list.reviews.loading')}
                         </div>
                       )}
                     </div>
@@ -950,7 +968,7 @@ const TeacherDashboard = () => {
                           fontWeight: "600",
                         }}
                       >
-                        ✏️ Edit Announcement
+                        {t('teacherDashboard.announcements.list.edit.title')}
                       </h5>
                       <form onSubmit={handleUpdateAnnouncement}>
                         <div
@@ -962,7 +980,7 @@ const TeacherDashboard = () => {
                         >
                           <input
                             type="text"
-                            placeholder="Subject"
+                            placeholder={t('teacherDashboard.announcements.create.subject')}
                             value={updateAnnouncement.subject}
                             onChange={(e) => setUpdateAnnouncement({ ...updateAnnouncement, subject: e.target.value })}
                             style={{
@@ -975,7 +993,7 @@ const TeacherDashboard = () => {
                             }}
                           />
                           <textarea
-                            placeholder="Content"
+                            placeholder={t('teacherDashboard.announcements.create.description')}
                             value={updateAnnouncement.content}
                             onChange={(e) => setUpdateAnnouncement({ ...updateAnnouncement, content: e.target.value })}
                             rows="3"
@@ -992,7 +1010,7 @@ const TeacherDashboard = () => {
                           />
                           <input
                             type="number"
-                            placeholder="Price"
+                            placeholder={t('teacherDashboard.announcements.create.price')}
                             value={updateAnnouncement.price}
                             onChange={(e) => setUpdateAnnouncement({ ...updateAnnouncement, price: e.target.value })}
                             style={{
@@ -1026,7 +1044,7 @@ const TeacherDashboard = () => {
                               flex: "1",
                             }}
                           >
-                            ✅ Update
+                            {t('teacherDashboard.announcements.list.edit.update')}
                           </button>
                           <button
                             type="button"
@@ -1044,7 +1062,7 @@ const TeacherDashboard = () => {
                               flex: "1",
                             }}
                           >
-                            ❌ Cancel
+                            {t('teacherDashboard.announcements.list.edit.cancel')}
                           </button>
                         </div>
                       </form>

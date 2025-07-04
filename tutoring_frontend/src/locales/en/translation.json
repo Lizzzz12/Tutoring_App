@@ -249,6 +249,190 @@
       "successStudent": "Student registration successful!",
       "successTeacher": "Your application to register as teacher has been sent, our support will approve as soon as possible.",
       "error": "Registration failed. Please try again."
+    },
+
+  "studentDashboard": {
+    "welcome": "Welcome back, {{username}}!",
+    "studentId": "Student ID:",
+    "favorites": "Favorites",
+    "settings": "Settings",
+    "logout": "Logout",
+    "availableTutors": "Available Tutors",
+    "savedFavorites": "Saved Favorites",
+    "subjectsAvailable": "Subjects Available",
+    "findLesson": "Find Your Perfect Lesson",
+    "searchPlaceholder": "🔍 Search by teacher name or subject...",
+    "tutoringSessions": "Available Tutoring Sessions",
+    "loading": "Loading announcements...",
+    "noTutorsTitle": "No tutors found",
+    "noTutorsWithSearch": "No tutors match your search for \"{{query}}\"",
+    "noTutorsAvailable": "No tutoring announcements are currently available",
+    "viewDetails": "View Details",
+    "save": "Save",
+    "saved": "Saved"
+  },
+  
+  "favorites": {
+    "title": "Your Favorites",
+    "subtitle": "Manage your saved tutoring sessions",
+    "backToDashboard": "← Back to Dashboard",
+    "loading": "Loading your favorites...",
+    "noFavorites": {
+      "title": "No favorites yet",
+      "description": "Explore our amazing tutors and save your favorites for quick access. Start building your personalized learning network!",
+      "button": "🔍 Explore Tutors"
+    },
+    "stats": {
+      "tutorsCount": "{{count}} Saved {{count, plural, one {Tutor} other {Tutors}}}",
+      "message": "{{count}} amazing {{count, plural, one {tutor} other {tutors}}} saved. Contact them to schedule your first session!"
+    },
+    "debug": {
+      "toggle": "🐛 Debug Info (Click to expand - Remove in production)"
+    },
+    "subject": "Subject",
+    "price": "Price",
+    "saved": "Saved to favorites",
+    "viewDetails": "📋 View Details",
+    "remove": "🗑️ Remove",
+    "removing": "Removing...",
+    "exploreMore": "🚀 Explore More Tutors",
+    "readyTitle": "Ready to start learning?"
+  },
+
+  "teacherDashboard": {
+    "title": "Teacher Dashboard",
+    "subtitle": "Manage your profile, announcements, and student interactions",
+    "error": {
+      "notLoggedIn": "You must be logged in.",
+      "loadProfile": "Failed to load teacher profile.",
+      "loadAnnouncements": "Failed to load announcements.",
+      "createAnnouncement": "Failed to create announcement.",
+      "updateAnnouncement": "Failed to update announcement.",
+      "deleteAnnouncement": "Failed to delete announcement.",
+      "allFieldsRequired": "All fields are required.",
+      "loadReviews": "Failed to fetch reviews.",
+      "noReviews": "No reviews found for this announcement."
+    },
+    "profile": {
+      "welcome": "Welcome back, {{name}}! 👋",
+      "ready": "Ready to inspire and educate today?",
+      "personalInfo": "📋 Personal Information",
+      "teachingDetails": "🎓 Teaching Details",
+      "aboutMe": "📝 About Me",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "subject": "Subject",
+      "rating": "Rating",
+      "location": "Location",
+      "availability": "Availability",
+      "noRating": "No rating yet",
+      "notSpecified": "Not specified",
+      "notProvided": "Not provided"
+    },
+    "buttons": {
+      "logout": "🚪 Logout",
+      "editProfile": "✏️ Edit Profile"
+    },
+    "announcements": {
+      "create": {
+        "title": "➕ Create New Announcement",
+        "subtitle": "Share your tutoring services with students",
+        "subject": "📚 Subject",
+        "subjectPlaceholder": "e.g., Advanced Mathematics",
+        "price": "💰 Price per Hour",
+        "pricePlaceholder": "25",
+        "description": "📝 Description",
+        "descriptionPlaceholder": "Describe your tutoring approach, experience, and what students can expect...",
+        "submit": "✨ Create Announcement"
+      },
+      "list": {
+        "title": "📢 My Announcements ({{count}})",
+        "subtitle": "Manage your active tutoring announcements",
+        "empty": {
+          "icon": "📝",
+          "title": "No announcements yet",
+          "message": "Create your first announcement to start connecting with students!"
+        },
+        "price": "💰 ${{price}}/hour",
+        "reviews": {
+          "view": "⭐ View Reviews",
+          "close": "❌ Close Reviews",
+          "title": "⭐ Student Reviews",
+          "loading": "Loading reviews...",
+          "student": "👤 {{name}}"
+        },
+        "edit": {
+          "title": "✏️ Edit Announcement",
+          "update": "✅ Update",
+          "cancel": "❌ Cancel"
+        },
+        "actions": {
+          "edit": "✏️ Edit",
+          "delete": "🗑️ Delete"
+        }
+      }
     }
+  },
+
+  
+  "editTeacher": {
+    "title": "Edit Teacher Profile",
+    "subtitle": "Update your professional information and credentials",
+    "error": {
+      "fetch": "Failed to fetch teacher data.",
+      "update": "Failed to update profile.",
+      "credential": "Error updating credentials. Please try again."
+    },
+    "success": {
+      "update": "Profile updated successfully!",
+      "credential": "Credentials updated successfully!"
+    },
+    "profile": {
+      "title": "👤 Profile Information",
+      "description": "Update your teaching profile details",
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email Address",
+        "subject": "Subject",
+        "phone": "Phone Number",
+        "address": "Address",
+        "availability": "Availability",
+        "location": "Tutoring Location",
+        "description": "Description"
+      },
+      "placeholders": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "email": "Enter your email address",
+        "subject": "Enter your teaching subject",
+        "phone": "Enter your phone number",
+        "address": "Enter your address",
+        "availability": "e.g., Mon-Fri 9AM-5PM",
+        "location": "e.g., Online, Library, Student's home",
+        "description": "Describe your teaching experience, qualifications, and approach..."
+      },
+      "save": "💾 Save Profile Changes"
+    },
+    "credentials": {
+      "title": "🔐 Security Settings",
+      "description": "Update your login credentials for enhanced security",
+      "fields": {
+        "username": "New Username",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password"
+      },
+      "placeholders": {
+        "username": "Enter new username",
+        "currentPassword": "Enter current password",
+        "newPassword": "Enter new password"
+      },
+      "update": "🔐 Update Credentials"
+    },
+    "back": "← Back to Dashboard"
+  }
+
 }
 
